@@ -1543,10 +1543,10 @@ function toggleSel(i){
   if(G.phase!=='ex1'&&G.phase!=='ex2')return;
   const s=G.sel.indexOf(i);
   if(s===-1){G.sel.push(i);SFX.cardClick(true);}else{G.sel.splice(s,1);SFX.cardClick(false);}
-  renderHand();updateExBtn();
+  paintSelection();updateExBtn();
   persistRound();
 }
-function clearSel(){if(G.phase!=='ex1'&&G.phase!=='ex2')return;G.sel=[];renderHand();updateExBtn();persistRound();}
+function clearSel(){if(G.phase!=='ex1'&&G.phase!=='ex2')return;G.sel=[];paintSelection();updateExBtn();persistRound();}
 function holdAll(){G.sel=[];log('Held all.');advance();}
 function confirmExchange(){
   // Sort ascending so indices stay valid as we replace in-place
@@ -1563,7 +1563,9 @@ function confirmExchange(){
     log(`Exchanged ${disc.length}: ${disc.map(c=>c.name).join(', ')}.`);
     SFX.exchange();
   }else log('Held all.');
-  G.sel=[];advance();
+  G.sel=[];
+  if(td.length)replaceCards(td);
+  advance();
 }
 function advance(){
   if(G.phase==='ex1'){
@@ -1572,8 +1574,8 @@ function advance(){
     document.getElementById('ex2').className='ex-dot active';
     document.getElementById('exLbl').textContent='Second Exchange';
     document.getElementById('phaseBar').textContent='✦ SECOND EXCHANGE — SELECT CARDS TO SWAP ✦';
-  renderHand();renderDiscard();updateExBtn();
-  persistRound();
+    paintSelection();renderDiscard();updateExBtn();
+    persistRound();
 }else if(G.phase==='ex2'){
     G.phase='scoring';
     document.getElementById('exControls').style.display='none';
@@ -1895,7 +1897,9 @@ async function recordBest(form) {
 }
 
 const ROUND_KEY = "aof-round";
-function persistRound() {
+let roundTimer = 0;
+function writeRound() {
+  roundTimer = 0;
   const screen = ["game", "fated", "results"].find((name) =>
     document.getElementById(`scr-${name}`).classList.contains("active"));
   if (!screen || !G || !G.sc) return;
@@ -1906,6 +1910,19 @@ function persistRound() {
     localStorage.setItem(ROUND_KEY, JSON.stringify({ screen, G }));
   } catch (error) {}
 }
+function persistRound() {
+  clearTimeout(roundTimer);
+  roundTimer = setTimeout(writeRound, 0);
+}
+function flushRound() {
+  if (!roundTimer) return;
+  clearTimeout(roundTimer);
+  writeRound();
+}
+addEventListener("pagehide", flushRound);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") flushRound();
+});
 function loadRound() {
   try {
     const raw = JSON.parse(localStorage.getItem(ROUND_KEY) || "null");
@@ -1917,6 +1934,8 @@ function loadRound() {
   }
 }
 function forgetRound() {
+  clearTimeout(roundTimer);
+  roundTimer = 0;
   try { localStorage.removeItem(ROUND_KEY); } catch (error) {}
 }
 function restoreFated() {
@@ -2014,7 +2033,8 @@ function mkCard(card,opts={}){
   const el=document.createElement('div');
   el.className=`card ${card.color}-card${opts.sel?' selected':''}${opts.nohover?' nohover':''}`;
   if(opts.style)el.style.cssText=opts.style;
-  const img=document.createElement('img');img.src=card.img;img.alt=card.name;img.loading='lazy';img.decoding='async';
+  const img=document.createElement('img');img.src=card.img;img.alt=card.name;img.decoding='async';
+  img.loading=opts.lazy?'lazy':'eager';
   img.onerror=()=>{img.style.display='none';const fb=document.createElement('div');fb.className='card-fb';fb.innerHTML=`<div class="cfn ${card.color}">${card.num}</div><div class="cfl">${card.name}</div>`;el.appendChild(fb);};
   el.appendChild(img);
   const bar=document.createElement('div');bar.className='cbar';el.appendChild(bar);
@@ -2029,11 +2049,27 @@ function renderHand(){
     div.appendChild(mkCard(G.cards[i],{sel:G.sel.includes(i),nohover:!isEx,onClick:isEx?()=>toggleSel(i):null}));
   }
 }
+function paintSelection(){
+  const cards=document.getElementById('playerHand').children;
+  if(cards.length!==G.cards.length){renderHand();return;}
+  for(let i=0;i<cards.length;i++)cards[i].classList.toggle('selected',G.sel.includes(i));
+}
+function replaceCards(indexes){
+  const hand=document.getElementById('playerHand');
+  if(hand.children.length!==G.cards.length){renderHand();return;}
+  const isEx=G.phase==='ex1'||G.phase==='ex2';
+  for(const i of indexes){
+    hand.replaceChild(
+      mkCard(G.cards[i],{nohover:!isEx,onClick:isEx?()=>toggleSel(i):null}),
+      hand.children[i]
+    );
+  }
+}
 
 function renderDiscard(){
   const div=document.getElementById('discardRow');div.innerHTML='';
   if(!G.disc||G.disc.length===0){div.innerHTML='<span style="font-style:italic;font-size:0.6rem;color:rgba(200,148,26,0.25);">empty</span>';return;}
-  for(const c of G.disc.slice(-6).reverse())div.appendChild(mkCard(c,{nohover:true}));
+  for(const c of G.disc.slice(-6).reverse())div.appendChild(mkCard(c,{nohover:true,lazy:true}));
 }
 
 function renderSP(){

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function AspectsOfFatePage() {
   return (
     <iframe
-      src="/aspects-of-fate/table.html?v=5"
+      src="/aspects-of-fate/table.html?v=6"
       title="Aspects of Fate"
       className="block h-full w-full border-0 bg-[#0b0804]"
       allow="fullscreen"
