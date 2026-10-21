@@ -273,6 +273,36 @@ body {
   box-shadow: 0 0 0 1px var(--gold-lt), 0 0 60px rgba(232,192,96,0.5), 0 6px 20px rgba(0,0,0,0.7);
   transform: translateY(-2px);
 }
+.resume-round {
+  width: min(440px, 100%);
+  margin: 0 auto 18px;
+  padding: 14px 16px 16px;
+  border: 1px solid rgba(200, 148, 26, 0.4);
+  text-align: center;
+}
+.resume-round p {
+  margin: 0 0 12px;
+  font-family: "IM Fell English", serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--parch);
+}
+.resume-round button {
+  margin: 0 6px;
+  padding: 8px 16px;
+  font-family: "Cinzel", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--gold-lt);
+  border: 1px solid var(--gold);
+  cursor: pointer;
+}
+.resume-round button:first-of-type {
+  background: var(--gold);
+  color: var(--felt);
+}
 
 .title-tagline {
   font-style: italic;
@@ -1404,7 +1434,7 @@ body {
       <button type="submit">Record</button>
     </form>
     <div class="best-board" id="resultBoard"></div>
-    <button class="deal-btn" onclick="location.reload()" style="padding:12px 38px;font-size:0.76rem;">✦ Play Again ✦</button>
+    <button class="deal-btn" onclick="forgetRound();location.reload()" style="padding:12px 38px;font-size:0.76rem;">✦ Play Again ✦</button>
     <div class="title-tagline">Fate favors the bold. Fortune favors the prepared.</div>
   </div>
 </div>
@@ -1503,7 +1533,7 @@ function totals(sc){
 }
 
 // ═══ FLOW ═══
-function startGame(){newG();show('game');deal();}
+function startGame(){forgetRound();newG();show('game');deal();}
 function deal(){
   G.phase='ex1';G.sel=[];G.deck=buildDeck();G.disc=[];G.cards=G.deck.splice(0,5);
   renderAll();log(`Hand ${G.hand+1} dealt.`);
@@ -1514,8 +1544,9 @@ function toggleSel(i){
   const s=G.sel.indexOf(i);
   if(s===-1){G.sel.push(i);SFX.cardClick(true);}else{G.sel.splice(s,1);SFX.cardClick(false);}
   renderHand();updateExBtn();
+  persistRound();
 }
-function clearSel(){if(G.phase!=='ex1'&&G.phase!=='ex2')return;G.sel=[];renderHand();updateExBtn();}
+function clearSel(){if(G.phase!=='ex1'&&G.phase!=='ex2')return;G.sel=[];renderHand();updateExBtn();persistRound();}
 function holdAll(){G.sel=[];log('Held all.');advance();}
 function confirmExchange(){
   // Sort ascending so indices stay valid as we replace in-place
@@ -1541,16 +1572,17 @@ function advance(){
     document.getElementById('ex2').className='ex-dot active';
     document.getElementById('exLbl').textContent='Second Exchange';
     document.getElementById('phaseBar').textContent='✦ SECOND EXCHANGE — SELECT CARDS TO SWAP ✦';
-    renderHand();renderDiscard();updateExBtn();
-  }else if(G.phase==='ex2'){
+  renderHand();renderDiscard();updateExBtn();
+  persistRound();
+}else if(G.phase==='ex2'){
     G.phase='scoring';
     document.getElementById('exControls').style.display='none';
     document.getElementById('scoreHint').style.display='';
     document.getElementById('handLbl').textContent='Final Hand';
     document.getElementById('phaseBar').textContent='✦ SCORING — TAP A CATEGORY ABOVE TO RECORD ✦';
     renderHand();renderSP();renderDiscard();
-    // scroll score panel into view
     document.getElementById('scorePanel').scrollTo({top:0,behavior:'smooth'});
+    persistRound();
   }
 }
 function pickScore(key,score){
@@ -1646,6 +1678,7 @@ function endHands(){
   document.getElementById('pc-descend').onclick=()=>choosePath('descend');
   SFX.fated();
   show('fated');
+  persistRound();
 }
 function choosePath(path){
   const el=document.getElementById(`pc-${path}`);
@@ -1655,6 +1688,7 @@ function choosePath(path){
   document.getElementById('pc-ascend').onclick=null;
   document.getElementById('pc-descend').onclick=null;
   G.history.push({game:G.game,total:G._gt,path,fated});
+  persistRound();
   setTimeout(()=>{
     if(G.game>=6)showResults();
     else{G.hand=0;G.sc=blank();show('game');deal();}
@@ -1836,6 +1870,7 @@ async function recordBest(form) {
       rows.sort(compareBests);
       saveBests(rows);
       useDeviceBoard();
+      forgetRound();
       button.textContent = "Recorded";
       input.disabled = true;
       return;
@@ -1849,6 +1884,7 @@ async function recordBest(form) {
     }
     fateBoard = { shared: true, rows: data.rows };
     paintBoards();
+    forgetRound();
     button.textContent = "Recorded";
     input.disabled = true;
   } catch (error) {
@@ -1858,8 +1894,121 @@ async function recordBest(form) {
   }
 }
 
+const ROUND_KEY = "aof-round";
+function persistRound() {
+  const screen = ["game", "fated", "results"].find((name) =>
+    document.getElementById(`scr-${name}`).classList.contains("active"));
+  if (!screen || !G || !G.sc) return;
+  const dealt = Array.isArray(G.cards) && G.cards.length > 0;
+  const played = Array.isArray(G.history) && G.history.length > 0;
+  if (screen === "game" && !dealt && !played) return;
+  try {
+    localStorage.setItem(ROUND_KEY, JSON.stringify({ screen, G }));
+  } catch (error) {}
+}
+function loadRound() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(ROUND_KEY) || "null");
+    if (!raw || !raw.G || !raw.G.sc) return null;
+    if (!["game", "fated", "results"].includes(raw.screen)) return null;
+    return raw;
+  } catch (error) {
+    return null;
+  }
+}
+function forgetRound() {
+  try { localStorage.removeItem(ROUND_KEY); } catch (error) {}
+}
+function restoreFated() {
+  const a = G._a;
+  const d = G._d;
+  document.getElementById("fd-gnum").textContent = G.game;
+  document.getElementById("fd-total").textContent = G._gt;
+  const ae = document.getElementById("pc-a");
+  const de = document.getElementById("pc-d");
+  ae.textContent = a;
+  ae.className = "pc-result " + (a >= 0 ? "pos" : "neg");
+  de.textContent = d;
+  de.className = "pc-result " + (d >= 0 ? "pos" : "neg");
+  document.getElementById("pc-ascend").className = "path-card" + (a < 0 ? " neg" : "");
+  document.getElementById("pc-descend").className = "path-card" + (d < 0 ? " neg" : "");
+  document.getElementById("fd-hint").textContent =
+    a < 0 && d < 0 ? "⚠ Both paths negative — this game is a loss." :
+    a < 0 ? "Ascend is negative. Descend or accept a loss." :
+    d < 0 ? "Descend is negative. Ascend or accept a loss." :
+    "Choose your path. Closest to zero wins. A negative total is a loss.";
+  document.getElementById("pc-ascend").onclick = () => choosePath("ascend");
+  document.getElementById("pc-descend").onclick = () => choosePath("descend");
+}
+function restoreGame() {
+  renderAll();
+  if (G.phase === "scoring") {
+    document.getElementById("exControls").style.display = "none";
+    document.getElementById("scoreHint").style.display = "";
+    document.getElementById("handLbl").textContent = "Final Hand";
+    document.getElementById("phaseBar").textContent = "✦ SCORING — TAP A CATEGORY ABOVE TO RECORD ✦";
+    document.getElementById("ex1").className = "ex-dot done";
+    document.getElementById("ex2").className = "ex-dot done";
+    renderHand();
+    renderSP();
+  }
+}
+function continueRound() {
+  const saved = loadRound();
+  if (!saved) return;
+  G = saved.G;
+  const offer = document.getElementById("resumeOffer");
+  if (offer) offer.remove();
+  const chosen = Array.isArray(G.history) && G.history.some((row) => row.game === G.game);
+  if (saved.screen === "results" || (chosen && G.game >= 6)) {
+    showResults();
+    return;
+  }
+  if (saved.screen === "fated" && chosen) {
+    G.hand = 0;
+    G.sc = blank();
+    show("game");
+    deal();
+    return;
+  }
+  if (saved.screen === "fated") {
+    show("fated");
+    restoreFated();
+    return;
+  }
+  show("game");
+  restoreGame();
+}
+function offerResume() {
+  const saved = loadRound();
+  const deal = document.querySelector("#scr-title .deal-btn");
+  if (!saved || !deal || document.getElementById("resumeOffer")) return;
+  const box = document.createElement("div");
+  box.id = "resumeOffer";
+  box.className = "resume-round";
+  const line = document.createElement("p");
+  line.textContent = saved.screen === "results"
+    ? "A finished run is still open."
+    : "A round is still on the table.";
+  const stay = document.createElement("button");
+  stay.type = "button";
+  stay.textContent = "Continue";
+  stay.onclick = continueRound;
+  const fresh = document.createElement("button");
+  fresh.type = "button";
+  fresh.textContent = "Start fresh";
+  fresh.onclick = () => {
+    box.remove();
+    deal.style.display = "";
+    startGame();
+  };
+  box.append(line, stay, fresh);
+  deal.before(box);
+  deal.style.display = "none";
+}
+
 // ═══ RENDER ═══
-function show(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(`scr-${n}`).classList.add('active');}
+function show(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(`scr-${n}`).classList.add('active');persistRound();}
 
 function mkCard(card,opts={}){
   const el=document.createElement('div');
@@ -2012,6 +2161,7 @@ function renderAll(){
   document.getElementById('exControls').style.display='';
   document.getElementById('scoreHint').style.display='none';
   renderHand();renderSP();renderDiscard();updateExBtn();
+  persistRound();
 }
 
 function log(msg,imp=false){
@@ -2028,6 +2178,7 @@ function log(msg,imp=false){
     c.appendChild(el);
   });
   renderBoards();
+  offerResume();
 })();
 
 // keyboard

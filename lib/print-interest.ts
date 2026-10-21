@@ -88,14 +88,14 @@ export function acceptPrintRequest(body: unknown, at: number): PrintRequest | st
     return { email: "", slug: "", title: "", at };
   }
   if (typeof record.slug !== "string") return "That drawing is not on the wall.";
-  const artwork = getBySlug(record.slug);
-  if (!artwork) return "That drawing is not on the wall.";
+  const artwork = record.slug === "any" ? null : getBySlug(record.slug);
+  if (record.slug !== "any" && !artwork) return "That drawing is not on the wall.";
   if (typeof record.email !== "string") return "Add an email address.";
   const email = record.email.trim().toLowerCase();
   if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return "That address could not be read.";
   }
-  return { email, slug: artwork.slug, title: artwork.title, at };
+  return { email, slug: artwork ? artwork.slug : "any", title: artwork ? artwork.title : "Any drawing", at };
 }
 
 function remember(rows: PrintRequest[], request: PrintRequest) {

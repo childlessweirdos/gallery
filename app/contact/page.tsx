@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { PrintInterest } from "@/components/PrintInterest";
 import { site } from "@/content/site";
+import { getArtworks } from "@/lib/artworks";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -7,6 +9,11 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
+  const choices = getArtworks().map((artwork) => ({
+    slug: artwork.slug,
+    title: artwork.title,
+  }));
+
   return (
     <article className="mx-auto w-full max-w-6xl py-10">
       <h1 className="font-display text-5xl leading-[0.9] tracking-[-0.03em]">
@@ -26,6 +33,9 @@ export default function ContactPage() {
       >
         @childlessweirdos
       </a>
+      <div className="mt-10 max-w-xl">
+        <PrintInterest choices={choices} idSuffix="-contact" />
+      </div>
     </article>
   );
 }
