@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: site.url },
     { url: `${site.url}/work` },
     { url: `${site.url}/contact` },
+    { url: `${site.url}/aspects-of-fate` },
     ...getArtworks().map((artwork) => ({
       url: `${site.url}/work/${artwork.slug}`,
     })),

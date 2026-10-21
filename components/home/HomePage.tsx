@@ -73,7 +73,7 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
       <ScrollRibbon />
       <nav
         aria-label="Elsewhere"
-        className="grid grid-cols-3 border-t border-ink lg:mt-auto"
+        className="grid grid-cols-4 border-t border-ink lg:mt-auto"
       >
         <Link
           href="/work"
@@ -91,10 +91,17 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
           href={site.comics}
           target="_blank"
           rel="noreferrer"
-          className="px-2 py-4 text-center font-mono text-[10px] uppercase tracking-[0.14em] hover:bg-ink hover:text-paper focus-visible:bg-ink focus-visible:text-paper sm:text-[11px] sm:tracking-[0.16em]"
+          className="border-r border-ink px-2 py-4 text-center font-mono text-[10px] uppercase tracking-[0.14em] hover:bg-ink hover:text-paper focus-visible:bg-ink focus-visible:text-paper sm:text-[11px] sm:tracking-[0.16em]"
         >
           Comics
         </a>
+        <Link
+          href="/aspects-of-fate"
+          className="px-2 py-3 text-center font-mono text-[10px] uppercase leading-tight tracking-[0.12em] hover:bg-ink hover:text-paper focus-visible:bg-ink focus-visible:text-paper sm:py-4 sm:text-[11px] sm:tracking-[0.14em]"
+        >
+          Aspects
+          <span className="block">of Fate</span>
+        </Link>
       </nav>
     </div>
   );

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
-import { SiteFooter } from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
+import { SiteShell } from "@/components/SiteShell";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -55,11 +54,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <SiteHeader />
-        <main id="content" className="flex flex-1 flex-col px-5 md:px-10">
-          {children}
-        </main>
-        <SiteFooter />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );
