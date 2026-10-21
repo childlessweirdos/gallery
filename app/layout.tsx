@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { SiteAnalytics } from "@/components/SiteAnalytics";
 import { SiteShell } from "@/components/SiteShell";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <SiteShell>{children}</SiteShell>
+        <SiteAnalytics />
       </body>
     </html>
   );
