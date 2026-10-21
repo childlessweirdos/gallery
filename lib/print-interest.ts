@@ -144,11 +144,29 @@ export async function recordPrintRequest(request: PrintRequest) {
   });
 }
 
-export async function notePrintArrival(ip: string) {
+export async function readPrintRequests() {
+  if (redisEnv()) {
+    const raw = await redis(["GET", LIST_KEY]);
+    const rows = typeof raw === "string" ? parseList(JSON.parse(raw) as unknown) : [];
+    return rows.sort((a, b) => b.at - a.at);
+  }
+  if (process.env.NODE_ENV === "production") return [];
+  return (await readFileList()).sort((a, b) => b.at - a.at);
+}
+
+export async function allowBurst(name: string, ip: string, max: number) {
   if (!redisEnv()) return true;
-  const hour = new Date().toISOString().slice(0, 13);
-  const key = `print-interest:rate:${hour}:${ip.slice(0, 80)}`;
-  const count = Number(await redis(["INCR", key]));
-  if (count === 1) await redis(["EXPIRE", key, 3600]);
-  return Number.isFinite(count) && count <= 8;
+  try {
+    const hour = new Date().toISOString().slice(0, 13);
+    const key = `${name}:rate:${hour}:${ip.slice(0, 80)}`;
+    const count = Number(await redis(["INCR", key]));
+    if (count === 1) await redis(["EXPIRE", key, 3600]);
+    return Number.isFinite(count) && count <= max;
+  } catch {
+    return true;
+  }
+}
+
+export async function notePrintArrival(ip: string) {
+  return allowBurst("print-interest", ip, 8);
 }
