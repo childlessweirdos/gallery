@@ -140,7 +140,11 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
   }, []);
 
   return (
-    <div className="-mx-5 md:-mx-10">
+    <div>
+      <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.16em] text-ink/55">
+        Select a piece for its details.
+      </p>
+      <div className="-mx-5 md:-mx-10">
       <div
         ref={rail}
         role="region"
@@ -225,6 +229,7 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
           </ul>
         </div>
       </div>
+    </div>
     </div>
   );
 }

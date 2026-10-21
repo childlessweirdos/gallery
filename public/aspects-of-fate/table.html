@@ -167,6 +167,87 @@ body {
   text-decoration: none;
 }
 .leave-home:hover { color: var(--gold-lt); }
+
+.best-board {
+  width: min(440px, 100%);
+  border: 1px solid rgba(200, 148, 26, 0.28);
+  padding: 12px 14px 6px;
+  text-align: left;
+}
+.best-title {
+  font-family: "Cinzel", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  text-align: center;
+}
+.best-note,
+.best-empty {
+  font-family: "IM Fell English", serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--parch-dk);
+  text-align: center;
+  line-height: 1.45;
+  margin: 6px 0 8px;
+}
+.best-row {
+  display: grid;
+  grid-template-columns: 1.4rem 1fr auto;
+  gap: 2px 8px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(200, 148, 26, 0.16);
+  font-family: "Raleway", sans-serif;
+  font-size: 0.78rem;
+}
+.best-rank { color: var(--gold-dk); }
+.best-name { color: var(--parch); }
+.best-sum { color: var(--gold-lt); font-weight: 700; }
+.best-row.loss .best-sum { color: #e08080; }
+.best-paths {
+  grid-column: 2 / -1;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--gold-dk);
+}
+.best-save {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: min(440px, 100%);
+}
+.best-save label {
+  width: 100%;
+  font-family: "Cinzel", serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  text-align: center;
+}
+.best-save input {
+  width: 12rem;
+  background: transparent;
+  border: 1px solid rgba(200, 148, 26, 0.4);
+  color: var(--parch);
+  font-family: "Raleway", sans-serif;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+}
+.best-save button {
+  font-family: "Cinzel", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--gold-lt);
+  border: 1px solid var(--gold);
+  padding: 8px 14px;
+  cursor: pointer;
+}
 .deal-btn {
   padding: 15px 52px;
   font-family: 'Cinzel', serif;
@@ -1202,6 +1283,7 @@ body {
     </div>
     <button class="deal-btn" onclick="startGame()">✦ &nbsp; Deal the Fates &nbsp; ✦</button>
     <div class="title-tagline">Fate favors the bold. Fortune favors the prepared.</div>
+    <div class="best-board" id="titleBoard"></div>
   </div>
 </div>
 
@@ -1316,6 +1398,12 @@ body {
     <div class="res-score" id="res-score">—</div>
     <div class="res-verdict" id="res-verdict">—</div>
     <div class="res-grid" id="res-grid"></div>
+    <form class="best-save" id="bestSave" onsubmit="return saveBest(event)">
+      <label for="bestName">Keep this run</label>
+      <input id="bestName" maxlength="24" autocomplete="nickname" placeholder="Name" required>
+      <button type="submit">Record</button>
+    </form>
+    <div class="best-board" id="resultBoard"></div>
     <button class="deal-btn" onclick="location.reload()" style="padding:12px 38px;font-size:0.76rem;">✦ Play Again ✦</button>
     <div class="title-tagline">Fate favors the bold. Fortune favors the prepared.</div>
   </div>
@@ -1592,6 +1680,88 @@ function showResults(){
     c.innerHTML=`<div class="rg-g">Game ${g.game}</div><div class="rg-t">${g.total}</div><div class="rg-p">${g.path.toUpperCase()}</div><div class="rg-f${g.fated<0?' loss':''}">${g.fated<0?'⚠ ':''}${g.fated}</div>`;
     grid.appendChild(c);
   }
+  renderBoards();
+}
+
+const BEST_KEY = "aof-best-scores";
+function loadBests() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(BEST_KEY) || "[]");
+    return Array.isArray(raw)
+      ? raw.filter((row) => row && typeof row.sum === "number" && Array.isArray(row.games))
+      : [];
+  } catch (error) {
+    return [];
+  }
+}
+function saveBests(rows) {
+  localStorage.setItem(BEST_KEY, JSON.stringify(rows.slice(0, 12)));
+}
+function compareBests(a, b) {
+  if (a.loss !== b.loss) return a.loss ? 1 : -1;
+  if ((a.negatives || 0) !== (b.negatives || 0)) return (a.negatives || 0) - (b.negatives || 0);
+  const distance = Math.abs(a.sum) - Math.abs(b.sum);
+  if (distance !== 0) return distance;
+  return (a.at || 0) - (b.at || 0);
+}
+function escapeBest(value) {
+  return String(value).replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  }[ch]));
+}
+function boardMarkup(rows) {
+  const note = "Six games. Closest to zero ranks first. A negative game falls below a clean run. Kept on this device.";
+  const body = rows.length
+    ? rows.map((row, index) => {
+        const paths = row.games
+          .map((game) => `${game.path === "ascend" ? "A" : "D"}${game.fated}`)
+          .join(" ");
+        return `<div class="best-row${row.loss ? " loss" : ""}">
+          <span class="best-rank">${index + 1}</span>
+          <span class="best-name">${escapeBest(row.name)}</span>
+          <span class="best-sum">${row.sum}${row.loss ? " ⚠" : ""}</span>
+          <span class="best-paths">${escapeBest(paths)}</span>
+        </div>`;
+      }).join("")
+    : `<div class="best-empty">${note}</div>`;
+  return `<div class="best-title">Best scores</div>${rows.length ? `<div class="best-note">${note}</div>` : ""}${body}`;
+}
+function renderBoards() {
+  const rows = loadBests().slice().sort(compareBests);
+  const html = boardMarkup(rows);
+  for (const id of ["titleBoard", "resultBoard"]) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  }
+}
+function saveBest(event) {
+  event.preventDefault();
+  if (!G.history || G.history.length < 6) return false;
+  const input = document.getElementById("bestName");
+  const name = input.value.trim().slice(0, 24);
+  if (!name) return false;
+  const negatives = G.history.filter((game) => game.fated < 0).length;
+  const rows = loadBests();
+  rows.push({
+    name,
+    sum: G.history.reduce((total, game) => total + game.fated, 0),
+    loss: negatives > 0,
+    negatives,
+    games: G.history.map((game) => ({ total: game.total, path: game.path, fated: game.fated })),
+    at: Date.now(),
+  });
+  rows.sort(compareBests);
+  saveBests(rows);
+  const button = event.currentTarget.querySelector("button");
+  button.textContent = "Recorded";
+  button.disabled = true;
+  input.disabled = true;
+  renderBoards();
+  return false;
 }
 
 // ═══ RENDER ═══
@@ -1763,6 +1933,7 @@ function log(msg,imp=false){
     el.style.width='var(--cw)';el.style.height='var(--ch)';el.style.flexShrink='0';
     c.appendChild(el);
   });
+  renderBoards();
 })();
 
 // keyboard

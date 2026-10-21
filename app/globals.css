@@ -192,9 +192,9 @@ img.framed-home {
   object-fit: contain;
 }
 
-/* Lead sheet leaves room for the scroll ribbon and the button row. */
+/* Phone: the lead sheet is full width, and the poster can scroll. */
 img.framed-home.lead {
-  max-height: min(26vh, calc(100dvh - 40rem));
+  max-height: none;
 }
 
 @media (min-width: 1024px) {
