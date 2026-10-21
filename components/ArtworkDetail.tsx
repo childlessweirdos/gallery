@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArtworkInspect } from "@/components/ArtworkInspect";
+import { PrintInterest } from "@/components/PrintInterest";
 import type { Artwork } from "@/lib/types";
 
 export function ArtworkDetail({
@@ -75,6 +76,9 @@ export function ArtworkDetail({
               />
             </figure>
           ) : null}
+          <div className="hidden lg:block">
+            <PrintInterest slug={artwork.slug} title={artwork.title} idSuffix="-desk" />
+          </div>
         </div>
       </div>
       <nav className="mt-5 flex items-baseline justify-between gap-6 border-t border-ink pt-3 font-mono text-[11px] uppercase tracking-[0.16em]">
@@ -91,6 +95,9 @@ export function ArtworkDetail({
           <span />
         )}
       </nav>
+      <div className="lg:hidden">
+        <PrintInterest slug={artwork.slug} title={artwork.title} idSuffix="-phone" />
+      </div>
     </article>
   );
 }
