@@ -1684,6 +1684,8 @@ function showResults(){
 }
 
 const BEST_KEY = "aof-best-scores";
+let fateBoard = { shared: false, rows: [] };
+
 function loadBests() {
   try {
     const raw = JSON.parse(localStorage.getItem(BEST_KEY) || "[]");
@@ -1713,8 +1715,13 @@ function escapeBest(value) {
     "'": "&#39;",
   }[ch]));
 }
+function boardNote() {
+  return fateBoard.shared
+    ? "One board for everyone. Closest to zero ranks first. A negative game falls below a clean run."
+    : "Kept on this device. Closest to zero ranks first. A negative game falls below a clean run.";
+}
 function boardMarkup(rows) {
-  const note = "Six games. Closest to zero ranks first. A negative game falls below a clean run. Kept on this device.";
+  const note = boardNote();
   const body = rows.length
     ? rows.map((row, index) => {
         const paths = row.games
@@ -1727,41 +1734,128 @@ function boardMarkup(rows) {
           <span class="best-paths">${escapeBest(paths)}</span>
         </div>`;
       }).join("")
-    : `<div class="best-empty">${note}</div>`;
-  return `<div class="best-title">Best scores</div>${rows.length ? `<div class="best-note">${note}</div>` : ""}${body}`;
+    : `<div class="best-empty">No finished runs yet.</div>`;
+  return `<div class="best-title">Best scores</div><div class="best-note">${note}</div>${body}`;
 }
-function renderBoards() {
-  const rows = loadBests().slice().sort(compareBests);
-  const html = boardMarkup(rows);
+function paintBoards() {
+  const html = boardMarkup(fateBoard.rows);
   for (const id of ["titleBoard", "resultBoard"]) {
     const el = document.getElementById(id);
     if (el) el.innerHTML = html;
   }
 }
+function useDeviceBoard() {
+  fateBoard = { shared: false, rows: loadBests().slice().sort(compareBests) };
+  paintBoards();
+}
+async function migrateDeviceRuns() {
+  const local = loadBests();
+  if (!local.length) return false;
+  const kept = [];
+  let moved = false;
+  for (const row of local) {
+    try {
+      const res = await fetch("/api/fate/scores", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: row.name,
+          games: row.games.map((game) => ({ total: game.total, path: game.path })),
+        }),
+      });
+      if (res.ok) moved = true;
+      else kept.push(row);
+    } catch (error) {
+      kept.push(row);
+    }
+  }
+  if (kept.length) localStorage.setItem(BEST_KEY, JSON.stringify(kept));
+  else localStorage.removeItem(BEST_KEY);
+  return moved;
+}
+async function refreshBoards() {
+  try {
+    const res = await fetch("/api/fate/scores", { cache: "no-store" });
+    if (!res.ok) throw new Error("board");
+    const data = await res.json();
+    if (!data.shared || !Array.isArray(data.rows)) {
+      useDeviceBoard();
+      return;
+    }
+    if (await migrateDeviceRuns()) {
+      const again = await fetch("/api/fate/scores", { cache: "no-store" });
+      const fresh = again.ok ? await again.json() : data;
+      fateBoard = { shared: true, rows: Array.isArray(fresh.rows) ? fresh.rows : data.rows };
+    } else {
+      fateBoard = { shared: true, rows: data.rows };
+    }
+    paintBoards();
+  } catch (error) {
+    useDeviceBoard();
+  }
+}
+function renderBoards() {
+  refreshBoards();
+}
 function saveBest(event) {
   event.preventDefault();
-  if (!G.history || G.history.length < 6) return false;
-  const input = document.getElementById("bestName");
-  const name = input.value.trim().slice(0, 24);
-  if (!name) return false;
-  const negatives = G.history.filter((game) => game.fated < 0).length;
-  const rows = loadBests();
-  rows.push({
-    name,
-    sum: G.history.reduce((total, game) => total + game.fated, 0),
-    loss: negatives > 0,
-    negatives,
-    games: G.history.map((game) => ({ total: game.total, path: game.path, fated: game.fated })),
-    at: Date.now(),
-  });
-  rows.sort(compareBests);
-  saveBests(rows);
-  const button = event.currentTarget.querySelector("button");
-  button.textContent = "Recorded";
-  button.disabled = true;
-  input.disabled = true;
-  renderBoards();
+  const form = event.currentTarget;
+  recordBest(form);
   return false;
+}
+async function recordBest(form) {
+  if (!G.history || G.history.length < 6) return;
+  const input = document.getElementById("bestName");
+  const button = form.querySelector("button");
+  const label = form.querySelector("label");
+  const name = input.value.trim().slice(0, 24);
+  if (!name) return;
+  button.disabled = true;
+  button.textContent = "Recording";
+  const payload = {
+    name,
+    games: G.history.map((game) => ({ total: game.total, path: game.path })),
+  };
+  try {
+    const res = await fetch("/api/fate/scores", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (res.status === 503) {
+      const negatives = G.history.filter((game) => game.fated < 0).length;
+      const rows = loadBests();
+      rows.push({
+        name,
+        sum: G.history.reduce((total, game) => total + game.fated, 0),
+        loss: negatives > 0,
+        negatives,
+        games: G.history.map((game) => ({ total: game.total, path: game.path, fated: game.fated })),
+        at: Date.now(),
+      });
+      rows.sort(compareBests);
+      saveBests(rows);
+      useDeviceBoard();
+      button.textContent = "Recorded";
+      input.disabled = true;
+      return;
+    }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !Array.isArray(data.rows)) {
+      button.disabled = false;
+      button.textContent = "Record";
+      if (label && data.error) label.textContent = data.error;
+      return;
+    }
+    fateBoard = { shared: true, rows: data.rows };
+    paintBoards();
+    button.textContent = "Recorded";
+    input.disabled = true;
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = "Record";
+    if (label) label.textContent = "The board could not be saved.";
+  }
 }
 
 // ═══ RENDER ═══
