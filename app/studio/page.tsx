@@ -5,6 +5,8 @@ import { StudioGate } from "@/components/StudioGate";
 import { readPrintRequests } from "@/lib/print-interest";
 import { sessionValid, studioConfigured, studioCookie } from "@/lib/studio-gate";
 
+export const instant = false;
+
 export const metadata: Metadata = {
   title: "Studio",
   robots: { index: false, follow: false },
