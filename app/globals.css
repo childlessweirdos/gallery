@@ -155,7 +155,32 @@ img.gallery-sheet {
 }
 
 .gallery-rail {
+  cursor: grab;
   touch-action: pan-y;
+}
+
+.gallery-rail.is-grabbing {
+  cursor: grabbing;
+}
+
+/* The walking row is a compositor animation. Duration is set from the row width. */
+.gallery-track {
+  will-change: transform;
+}
+
+@keyframes gallery-walk {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.gallery-track.is-walking {
+  animation-name: gallery-walk;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 img.framed-home {

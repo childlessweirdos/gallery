@@ -11,6 +11,12 @@ import tooShear from "@/public/art/too-shear.jpg";
 import tooShearSwatch from "@/public/art/too-shear-swatch.png";
 import botBoop from "@/public/art/bot-boop.jpg";
 import botBoopSwatch from "@/public/art/bot-boop-swatch.png";
+import d953Preview from "@/public/art/gallery/d-953.jpg";
+import guqinPreview from "@/public/art/gallery/guqin.jpg";
+import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
+import jetSetOversprayPreview from "@/public/art/gallery/jet-set-overspray.jpg";
+import tooShearPreview from "@/public/art/gallery/too-shear.jpg";
+import botBoopPreview from "@/public/art/gallery/bot-boop.jpg";
 import type { StaticImageData } from "next/image";
 
 const medium =
@@ -44,6 +50,7 @@ export const artworks: Artwork[] = [
     title: "D-953",
     year: 2026,
     image: d953,
+    thumbnail: d953Preview,
     imageWidth: d953.width,
     imageHeight: d953.height,
     altText:
@@ -60,6 +67,7 @@ export const artworks: Artwork[] = [
     title: "Guqin",
     year: 2026,
     image: guqin,
+    thumbnail: guqinPreview,
     imageWidth: guqin.width,
     imageHeight: guqin.height,
     altText:
@@ -75,6 +83,7 @@ export const artworks: Artwork[] = [
     title: "For Dexter",
     year: 2026,
     image: forDexter,
+    thumbnail: forDexterPreview,
     imageWidth: forDexter.width,
     imageHeight: forDexter.height,
     altText:
@@ -91,6 +100,7 @@ export const artworks: Artwork[] = [
     title: "Jet-set Overspray",
     year: 2026,
     image: jetSetOverspray,
+    thumbnail: jetSetOversprayPreview,
     imageWidth: jetSetOverspray.width,
     imageHeight: jetSetOverspray.height,
     altText:
@@ -106,6 +116,7 @@ export const artworks: Artwork[] = [
     title: "Too Shear?",
     year: 2026,
     image: tooShear,
+    thumbnail: tooShearPreview,
     imageWidth: tooShear.width,
     imageHeight: tooShear.height,
     altText:
@@ -121,6 +132,7 @@ export const artworks: Artwork[] = [
     title: "Bot Boop",
     year: 2026,
     image: botBoop,
+    thumbnail: botBoopPreview,
     imageWidth: botBoop.width,
     imageHeight: botBoop.height,
     altText:

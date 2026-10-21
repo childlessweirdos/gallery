@@ -2,35 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Frame } from "@/components/Frame";
 import type { Artwork } from "@/lib/types";
 
 const walkSpeed = 28;
 
-function GalleryPiece({
-  artwork,
-  priority = false,
-}: {
-  artwork: Artwork;
-  priority?: boolean;
-}) {
+function GalleryPiece({ artwork }: { artwork: Artwork }) {
   return (
-    <li>
+    <li className="shrink-0">
       <Link
         href={`/work/${artwork.slug}`}
         draggable={false}
         onDragStart={(event) => event.preventDefault()}
-        className="group inline-block max-w-full"
+        className="group inline-block"
       >
         <Frame>
           <Image
-            src={artwork.image}
+            src={artwork.thumbnail ?? artwork.image}
             alt={artwork.altText}
-            quality={90}
-            priority={priority}
+            unoptimized
             draggable={false}
-            sizes="(min-width: 1024px) 320px, 70vw"
+            loading="eager"
+            decoding="async"
             className="gallery-sheet"
           />
         </Frame>
@@ -48,17 +42,24 @@ function GalleryPiece({
 export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
   const rail = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
-  const offset = useRef(0);
   const loop = useRef(0);
   const paused = useRef(false);
   const drag = useRef<{
     x: number;
     y: number;
-    offset: number;
+    origin: number;
     moved: boolean;
   } | null>(null);
   const suppressClick = useRef(false);
-  const [grabbing, setGrabbing] = useState(false);
+  const motion = useRef<{
+    currentX: () => number;
+    freeze: () => number;
+    playFrom: (x: number) => void;
+  }>({
+    currentX: () => 0,
+    freeze: () => 0,
+    playFrom: () => {},
+  });
 
   useEffect(() => {
     const element = rail.current;
@@ -66,48 +67,74 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
     if (!element || !row) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let frame = 0;
-    let last = performance.now();
+    let wheelTimer = 0;
+
+    const currentX = () => {
+      const transform = getComputedStyle(row).transform;
+      if (!transform || transform === "none") return 0;
+      return new DOMMatrix(transform).m41;
+    };
 
     const measure = () => {
       const first = row.firstElementChild as HTMLElement | null;
-      if (!first) return;
-      const styles = getComputedStyle(row);
-      const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
-      loop.current = first.getBoundingClientRect().width + gap;
+      if (!first) return loop.current;
+      const width = first.offsetWidth;
+      if (width > 12) loop.current = width;
+      return loop.current;
     };
 
-    const apply = () => {
+    const playFrom = (x: number) => {
       const width = loop.current;
-      if (width > 0) {
-        offset.current = ((offset.current % width) + width) % width;
-      }
-      row.style.transform = `translate3d(${-offset.current}px, 0, 0)`;
+      row.classList.remove("is-walking");
+      row.style.animationPlayState = "";
+      row.style.transform = `translate3d(${x}px, 0, 0)`;
+      if (reduce || paused.current || width < 12) return;
+      const traveled = ((-x % width) + width) % width;
+      row.style.animationDuration = `${width / walkSpeed}s`;
+      row.style.animationDelay = `${-traveled / walkSpeed}s`;
+      void row.offsetWidth;
+      row.style.transform = "";
+      row.classList.add("is-walking");
     };
 
-    const tick = (now: number) => {
-      const elapsed = Math.min(now - last, 48);
-      last = now;
-      measure();
-      if (!reduce && !paused.current && !drag.current && loop.current > 12) {
-        offset.current += walkSpeed * (elapsed / 1000);
-      }
-      apply();
-      frame = requestAnimationFrame(tick);
+    const freeze = () => {
+      const x = currentX();
+      row.classList.remove("is-walking");
+      row.style.transform = `translate3d(${x}px, 0, 0)`;
+      return x;
     };
+
+    motion.current = { currentX, freeze, playFrom };
+    measure();
+    playFrom(0);
+
+    const observer = new ResizeObserver(() => {
+      const before = loop.current;
+      const width = measure();
+      if (width < 12 || Math.abs(width - before) < 1) return;
+      if (drag.current?.moved || paused.current) return;
+      playFrom(currentX());
+    });
+    const first = row.firstElementChild;
+    if (first) observer.observe(first);
 
     const onWheel = (event: WheelEvent) => {
-      const horizontal = Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey;
+      const horizontal =
+        Math.abs(event.deltaX) > Math.abs(event.deltaY) || event.shiftKey;
       if (!horizontal) return;
       event.preventDefault();
-      offset.current += event.deltaX || event.deltaY;
-      apply();
+      const x = freeze() - (event.deltaX || event.deltaY);
+      row.style.transform = `translate3d(${x}px, 0, 0)`;
+      window.clearTimeout(wheelTimer);
+      wheelTimer = window.setTimeout(() => {
+        if (!drag.current && !paused.current) playFrom(currentX());
+      }, 140);
     };
 
     element.addEventListener("wheel", onWheel, { passive: false });
-    frame = requestAnimationFrame(tick);
     return () => {
-      cancelAnimationFrame(frame);
+      window.clearTimeout(wheelTimer);
+      observer.disconnect();
       element.removeEventListener("wheel", onWheel);
     };
   }, []);
@@ -118,7 +145,7 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
         ref={rail}
         role="region"
         aria-label="The drawings"
-        className={`gallery-rail overflow-hidden px-5 pb-8 outline-none md:px-10 ${grabbing ? "cursor-grabbing" : "cursor-grab"}`}
+        className="gallery-rail overflow-hidden px-5 pb-8 outline-none md:px-10"
         onDragStart={(event) => event.preventDefault()}
         onPointerDown={(event) => {
           if (event.button !== 0) return;
@@ -126,37 +153,42 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
           drag.current = {
             x: event.clientX,
             y: event.clientY,
-            offset: offset.current,
+            origin: motion.current.freeze(),
             moved: false,
           };
         }}
         onPointerMove={(event) => {
           const current = drag.current;
           const element = rail.current;
-          if (!current || !element) return;
+          const row = track.current;
+          if (!current || !element || !row) return;
           const dx = event.clientX - current.x;
           const dy = event.clientY - current.y;
           if (!current.moved) {
             if (Math.abs(dx) < 6) return;
             if (Math.abs(dx) < Math.abs(dy)) {
               drag.current = null;
+              if (!paused.current) motion.current.playFrom(current.origin);
               return;
             }
             current.moved = true;
             window.getSelection()?.removeAllRanges();
             element.setPointerCapture(event.pointerId);
-            setGrabbing(true);
+            element.classList.add("is-grabbing");
           }
-          offset.current = current.offset - dx;
+          row.style.transform = `translate3d(${current.origin + dx}px, 0, 0)`;
         }}
         onPointerUp={() => {
-          if (drag.current?.moved) suppressClick.current = true;
+          const moved = drag.current?.moved ?? false;
           drag.current = null;
-          setGrabbing(false);
+          rail.current?.classList.remove("is-grabbing");
+          if (moved) suppressClick.current = true;
+          if (!paused.current) motion.current.playFrom(motion.current.currentX());
         }}
         onPointerCancel={() => {
           drag.current = null;
-          setGrabbing(false);
+          rail.current?.classList.remove("is-grabbing");
+          if (!paused.current) motion.current.playFrom(motion.current.currentX());
         }}
         onClickCapture={(event) => {
           if (!suppressClick.current) return;
@@ -166,20 +198,27 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
         }}
         onFocusCapture={() => {
           paused.current = true;
+          const row = track.current;
+          if (!row) return;
+          row.style.animationPlayState = "paused";
         }}
         onBlurCapture={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-            paused.current = false;
-          }
+          if (event.currentTarget.contains(event.relatedTarget as Node)) return;
+          paused.current = false;
+          if (!drag.current) motion.current.playFrom(motion.current.currentX());
         }}
       >
-        <div ref={track} className="flex w-max items-start gap-8 will-change-transform md:gap-12">
-          <ul className="flex items-start gap-8 md:gap-12">
-            {artworks.map((artwork, index) => (
-              <GalleryPiece key={artwork.id} artwork={artwork} priority={index === 0} />
+        <div ref={track} className="gallery-track flex w-max items-start">
+          <ul className="flex w-max shrink-0 items-start gap-8 pr-8 md:gap-12 md:pr-12">
+            {artworks.map((artwork) => (
+              <GalleryPiece key={artwork.id} artwork={artwork} />
             ))}
           </ul>
-          <ul className="flex items-start gap-8 md:gap-12" aria-hidden="true" inert>
+          <ul
+            className="flex w-max shrink-0 items-start gap-8 pr-8 md:gap-12 md:pr-12"
+            aria-hidden="true"
+            inert
+          >
             {artworks.map((artwork) => (
               <GalleryPiece key={`${artwork.id}-loop`} artwork={artwork} />
             ))}
