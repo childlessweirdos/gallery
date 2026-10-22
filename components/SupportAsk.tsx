@@ -1,12 +1,12 @@
 import { site } from "@/content/site";
 
-export function SupportAsk() {
+export function SupportAsk({ className = "mt-8" }: { className?: string }) {
   return (
     <a
       href={site.kofi}
       target="_blank"
       rel="noreferrer"
-      className="mt-8 inline-flex max-w-md flex-col gap-2 border border-ink bg-vermilion px-5 py-4 text-paper hover:bg-ink"
+      className={`inline-flex max-w-md flex-col gap-2 border border-ink bg-vermilion px-5 py-4 text-paper hover:bg-ink ${className}`}
     >
       <span className="font-mono text-[10px] uppercase tracking-[0.18em]">
         The first ten · Ko-fi

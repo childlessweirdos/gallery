@@ -122,7 +122,7 @@ img.framed-sheet {
   }
 }
 
-/* Preview sheets in the work gallery, small enough to scan a row. */
+/* Preview sheets in the work gallery. Desktop leaves room for the support ask. */
 img.gallery-sheet {
   display: block;
   width: auto;
@@ -135,7 +135,7 @@ img.gallery-sheet {
 @media (min-width: 1024px) {
   img.gallery-sheet {
     max-width: 300px;
-    max-height: min(40vh, 360px);
+    max-height: min(40vh, 360px, calc(100dvh - 36rem));
   }
 }
 

@@ -149,7 +149,7 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
         ref={rail}
         role="region"
         aria-label="The drawings"
-        className="gallery-rail overflow-hidden px-5 pb-8 outline-none md:px-10"
+        className="gallery-rail overflow-hidden px-5 pb-2 outline-none md:px-10"
         onDragStart={(event) => event.preventDefault()}
         onPointerDown={(event) => {
           if (event.button !== 0) return;
