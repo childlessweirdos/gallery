@@ -58,8 +58,8 @@ export const artworks: Artwork[] = [
     displayOrder: 1,
     featured: true,
     medium,
-    dimensions: "13.1 × 17.32 in",
-    picture: pictureFor(d953Swatch, 6.2),
+    dimensions: "13.38 × 17.46 in",
+    picture: pictureFor(d953Swatch, 6.3),
   },
   {
     id: "guqin",
@@ -90,8 +90,8 @@ export const artworks: Artwork[] = [
       "A seated figure in a pale yellow blazer, burgundy skirt, and platform boots holds a saxophone and a lit cigarette, with a teal panel behind them.",
     displayOrder: 3,
     medium,
-    dimensions: "13.15 × 17.74 in",
-    picture: pictureFor(forDexterSwatch, 6.2),
+    dimensions: "12.74 × 17.18 in",
+    picture: pictureFor(forDexterSwatch, 6.3),
     collections: ["Jazz & Rhythm"],
   },
   {
@@ -113,7 +113,7 @@ export const artworks: Artwork[] = [
   {
     id: "too-shear",
     slug: "too-shear",
-    title: "Too Shear?",
+    title: "Too Sheer?",
     year: 2026,
     image: tooShear,
     thumbnail: tooShearPreview,
@@ -139,7 +139,7 @@ export const artworks: Artwork[] = [
       "A blue-green figure in a pink halter and shorts points at a small flying robot with a heart on its screen. A magenta panel is behind them, with the word Boop written above the robot.",
     displayOrder: 6,
     medium,
-    dimensions: "12.2 × 16.83 in",
+    dimensions: "13.24 × 19.73 in",
     picture: pictureFor(botBoopSwatch, 6.3),
   },
 ];
