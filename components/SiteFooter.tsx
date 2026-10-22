@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { InkMark } from "@/components/InkMark";
+import { SupportAsk } from "@/components/SupportAsk";
 import { site } from "@/content/site";
 
 export function SiteFooter() {
@@ -18,26 +19,7 @@ export function SiteFooter() {
         <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em]">
           {site.artist} · {site.city}
         </p>
-        <p className="mt-3 max-w-sm font-sans text-sm leading-relaxed">
-          The{" "}
-          <a
-            href={site.comics}
-            target="_blank"
-            rel="noreferrer"
-            className="ink-link"
-          >
-            classic strip
-          </a>{" "}
-          is still up. Support is on{" "}
-          <a
-            href={site.kofi}
-            target="_blank"
-            rel="noreferrer"
-            className="ink-link"
-          >
-            Ko-fi
-          </a>.
-        </p>
+        <SupportAsk />
       </div>
     </footer>
   );

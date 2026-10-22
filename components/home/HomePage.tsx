@@ -43,14 +43,14 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
               </a>{" "}
               by Lingdong Huang
             </p>
-            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em]">
+            <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-vermilion">
               <a
                 href={site.kofi}
                 target="_blank"
                 rel="noreferrer"
                 className="ink-link"
               >
-                Support on Ko-fi
+                Support the weird
               </a>
             </p>
           </div>
