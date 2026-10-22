@@ -28,7 +28,15 @@ export function SiteFooter() {
           >
             classic strip
           </a>{" "}
-          is still up.
+          is still up. Support is on{" "}
+          <a
+            href={site.kofi}
+            target="_blank"
+            rel="noreferrer"
+            className="ink-link"
+          >
+            Ko-fi
+          </a>.
         </p>
       </div>
     </footer>

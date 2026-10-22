@@ -43,6 +43,16 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
               </a>{" "}
               by Lingdong Huang
             </p>
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em]">
+              <a
+                href={site.kofi}
+                target="_blank"
+                rel="noreferrer"
+                className="ink-link"
+              >
+                Support on Ko-fi
+              </a>
+            </p>
           </div>
         </div>
 

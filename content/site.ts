@@ -8,5 +8,6 @@ export const site = {
   comics: "https://childlessweirdos.carrd.co/",
   analyticsId: "G-L15LMGJ700",
   instagram: "https://instagram.com/childlessweirdos",
+  kofi: "https://ko-fi.com/childlessweirdos",
   shanShui: "https://github.com/LingDong-/shan-shui-inf",
 } as const;

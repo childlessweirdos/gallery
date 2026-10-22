@@ -33,6 +33,17 @@ export default function ContactPage() {
       >
         @childlessweirdos
       </a>
+      <p className="mt-6 max-w-[28ch] font-sans text-sm leading-relaxed">
+        Support for the work is on Ko-fi.
+      </p>
+      <a
+        href={site.kofi}
+        target="_blank"
+        rel="noreferrer"
+        className="ink-link mt-4 inline-block font-mono text-[11px] uppercase tracking-[0.16em]"
+      >
+        ko-fi.com/childlessweirdos
+      </a>
       <div className="mt-10 max-w-xl">
         <PrintInterest choices={choices} idSuffix="-contact" />
       </div>
