@@ -1533,7 +1533,17 @@ function totals(sc){
 }
 
 // ═══ FLOW ═══
-function startGame(){forgetRound();newG();show('game');deal();}
+function startGame(){
+  forgetRound();
+  newG();
+  show('game');
+  deal();
+  try {
+    if (parent && typeof parent.gtag === "function") {
+      parent.gtag("event", "game_start", { page_path: "/aspects-of-fate" });
+    }
+  } catch (error) {}
+}
 function deal(){
   G.phase='ex1';G.sel=[];G.deck=buildDeck();G.disc=[];G.cards=G.deck.splice(0,5);
   renderAll();log(`Hand ${G.hand+1} dealt.`);

@@ -56,6 +56,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <SiteShell>{children}</SiteShell>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var q=new URLSearchParams(location.search);if(q.get("internal")==="1")document.cookie="cw_internal=1;path=/;max-age=31536000;samesite=lax";if(q.get("internal")==="0")document.cookie="cw_internal=;path=/;max-age=0;samesite=lax";if(document.cookie.indexOf("cw_internal=1")===-1)return;window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};window.gtag("set",{traffic_type:"internal"});}catch(e){}})();`,
+          }}
+        />
         <SiteAnalytics />
       </body>
     </html>
