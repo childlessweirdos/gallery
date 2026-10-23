@@ -1,6 +1,7 @@
 export const site = {
   name: "Childless Weirdos",
-  description: "Original illustrations by Danny Stief.",
+  description:
+    "Original illustrations by Danny Stief, in Pittsburgh. Certified and licensed for a wild goose chase.",
   city: "Pittsburgh",
   issue: "No. 01",
   url: "https://childlessweirdos.com",

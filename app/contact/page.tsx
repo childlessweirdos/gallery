@@ -5,7 +5,7 @@ import { getArtworks } from "@/lib/artworks";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Write to ${site.artist}.`,
+  description: `Write to ${site.artist} in Pittsburgh. Instagram is the direct line.`,
 };
 
 export default function ContactPage() {
