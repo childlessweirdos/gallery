@@ -11,12 +11,15 @@ import tooShear from "@/public/art/too-shear.jpg";
 import tooShearSwatch from "@/public/art/too-shear-swatch.png";
 import botBoop from "@/public/art/bot-boop.jpg";
 import botBoopSwatch from "@/public/art/bot-boop-swatch.png";
+import gachaponTraveler from "@/public/art/gachapon-traveler.jpg";
+import gachaponTravelerSwatch from "@/public/art/gachapon-traveler-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
 import jetSetOversprayPreview from "@/public/art/gallery/jet-set-overspray.jpg";
 import tooShearPreview from "@/public/art/gallery/too-shear.jpg";
 import botBoopPreview from "@/public/art/gallery/bot-boop.jpg";
+import gachaponTravelerPreview from "@/public/art/gallery/gachapon-traveler.jpg";
 import type { StaticImageData } from "next/image";
 
 const medium =
@@ -141,5 +144,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "13.24 × 19.73 in",
     picture: pictureFor(botBoopSwatch, 6.3),
+  },
+  {
+    id: "gachapon-traveler",
+    slug: "gachapon-traveler",
+    title: "Gachapon Traveler",
+    year: 2026,
+    image: gachaponTraveler,
+    thumbnail: gachaponTravelerPreview,
+    imageWidth: gachaponTraveler.width,
+    imageHeight: gachaponTraveler.height,
+    altText:
+      "A blue-skinned figure with pink hair and pointed ears walks barefoot in an orange tank top and olive trousers, a pink gachapon machine strapped to their back. An orange panel is behind them.",
+    displayOrder: 7,
+    medium,
+    dimensions: "12.79 × 17.11 in",
+    picture: pictureFor(gachaponTravelerSwatch),
   },
 ];
