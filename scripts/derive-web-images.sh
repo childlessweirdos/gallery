@@ -5,7 +5,7 @@ set -eu
 cd "$(dirname "$0")/.."
 mkdir -p public/art public/art/gallery
 
-for name in d-953 guqin for-dexter jet-set-overspray too-shear bot-boop gachapon-traveler; do
+for name in d-953 guqin for-dexter jet-set-overspray too-shear bot-boop gachapon-traveler bubble-matic; do
   sips -s format jpeg -s formatOptions 90 \
     "masters/${name}.tif" \
     --out "public/art/${name}.jpg"

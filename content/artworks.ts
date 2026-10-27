@@ -13,6 +13,8 @@ import botBoop from "@/public/art/bot-boop.jpg";
 import botBoopSwatch from "@/public/art/bot-boop-swatch.png";
 import gachaponTraveler from "@/public/art/gachapon-traveler.jpg";
 import gachaponTravelerSwatch from "@/public/art/gachapon-traveler-swatch.png";
+import bubbleMatic from "@/public/art/bubble-matic.jpg";
+import bubbleMaticSwatch from "@/public/art/bubble-matic-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -20,6 +22,7 @@ import jetSetOversprayPreview from "@/public/art/gallery/jet-set-overspray.jpg";
 import tooShearPreview from "@/public/art/gallery/too-shear.jpg";
 import botBoopPreview from "@/public/art/gallery/bot-boop.jpg";
 import gachaponTravelerPreview from "@/public/art/gallery/gachapon-traveler.jpg";
+import bubbleMaticPreview from "@/public/art/gallery/bubble-matic.jpg";
 import type { StaticImageData } from "next/image";
 
 const medium =
@@ -160,5 +163,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.79 × 17.11 in",
     picture: pictureFor(gachaponTravelerSwatch),
+  },
+  {
+    id: "bubble-matic",
+    slug: "bubble-matic",
+    title: "Bubble-matic",
+    year: 2026,
+    image: bubbleMatic,
+    thumbnail: bubbleMaticPreview,
+    imageWidth: bubbleMatic.width,
+    imageHeight: bubbleMatic.height,
+    altText:
+      "A magenta-skinned figure with white hair and pointed ears plays a pipe that blows green bubbles, barefoot in a yellow wrap and brown shawl, in front of a green building.",
+    displayOrder: 8,
+    medium,
+    dimensions: "11.71 × 15.78 in",
+    picture: pictureFor(bubbleMaticSwatch, 6.3),
   },
 ];
