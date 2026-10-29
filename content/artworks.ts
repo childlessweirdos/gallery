@@ -15,6 +15,8 @@ import gachaponTraveler from "@/public/art/gachapon-traveler.jpg";
 import gachaponTravelerSwatch from "@/public/art/gachapon-traveler-swatch.png";
 import bubbleMatic from "@/public/art/bubble-matic.jpg";
 import bubbleMaticSwatch from "@/public/art/bubble-matic-swatch.png";
+import groundBall from "@/public/art/ground-ball.jpg";
+import groundBallSwatch from "@/public/art/ground-ball-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -23,6 +25,7 @@ import tooShearPreview from "@/public/art/gallery/too-shear.jpg";
 import botBoopPreview from "@/public/art/gallery/bot-boop.jpg";
 import gachaponTravelerPreview from "@/public/art/gallery/gachapon-traveler.jpg";
 import bubbleMaticPreview from "@/public/art/gallery/bubble-matic.jpg";
+import groundBallPreview from "@/public/art/gallery/ground-ball.jpg";
 import type { StaticImageData } from "next/image";
 
 const medium =
@@ -179,5 +182,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "11.71 × 15.78 in",
     picture: pictureFor(bubbleMaticSwatch, 6.3),
+  },
+  {
+    id: "ground-ball",
+    slug: "ground-ball",
+    title: "Ground Ball",
+    year: 2026,
+    image: groundBall,
+    thumbnail: groundBallPreview,
+    imageWidth: groundBall.width,
+    imageHeight: groundBall.height,
+    altText:
+      "A blue-skinned figure in a yellow off-shoulder top, gray pleated skirt, and a yellow cap rests a bat on their shoulder, one bare foot on a baseball. A magenta wedge is behind them.",
+    displayOrder: 9,
+    medium,
+    dimensions: "12.47 × 16.07 in",
+    picture: pictureFor(groundBallSwatch, 6.3),
   },
 ];

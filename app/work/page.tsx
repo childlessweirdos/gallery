@@ -5,7 +5,7 @@ import { getArtworks } from "@/lib/artworks";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Eight drawings by Danny Stief: D-953, Guqin, For Dexter, Jet-set Overspray, Too Sheer?, Bot Boop, Gachapon Traveler, and Bubble-matic.",
+    "Nine drawings by Danny Stief: D-953, Guqin, For Dexter, Jet-set Overspray, Too Sheer?, Bot Boop, Gachapon Traveler, Bubble-matic, and Ground Ball.",
 };
 
 export default function WorkPage() {
