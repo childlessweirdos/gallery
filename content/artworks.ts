@@ -17,6 +17,8 @@ import bubbleMatic from "@/public/art/bubble-matic.jpg";
 import bubbleMaticSwatch from "@/public/art/bubble-matic-swatch.png";
 import groundBall from "@/public/art/ground-ball.jpg";
 import groundBallSwatch from "@/public/art/ground-ball-swatch.png";
+import itsALimitedEdition from "@/public/art/its-a-limited-edition.jpg";
+import itsALimitedEditionSwatch from "@/public/art/its-a-limited-edition-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -26,6 +28,7 @@ import botBoopPreview from "@/public/art/gallery/bot-boop.jpg";
 import gachaponTravelerPreview from "@/public/art/gallery/gachapon-traveler.jpg";
 import bubbleMaticPreview from "@/public/art/gallery/bubble-matic.jpg";
 import groundBallPreview from "@/public/art/gallery/ground-ball.jpg";
+import itsALimitedEditionPreview from "@/public/art/gallery/its-a-limited-edition.jpg";
 import type { StaticImageData } from "next/image";
 
 const medium =
@@ -198,5 +201,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.47 × 16.07 in",
     picture: pictureFor(groundBallSwatch, 6.3),
+  },
+  {
+    id: "its-a-limited-edition",
+    slug: "its-a-limited-edition",
+    title: "It's a Limited Edition",
+    year: 2026,
+    image: itsALimitedEdition,
+    thumbnail: itsALimitedEditionPreview,
+    imageWidth: itsALimitedEdition.width,
+    imageHeight: itsALimitedEdition.height,
+    altText:
+      "A pink-skinned figure with orange hair in a high ponytail and purple sunglasses sits barefoot in a yellow dress on a round purple creature with a white face and teeth, a red phone at their ear.",
+    displayOrder: 10,
+    medium,
+    dimensions: "13.38 × 19.18 in",
+    picture: pictureFor(itsALimitedEditionSwatch, 6.3),
   },
 ];
