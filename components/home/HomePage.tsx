@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Drift } from "@/components/Drift";
 import { Frame } from "@/components/Frame";
 import { InkMark } from "@/components/InkMark";
+import { ListSignup } from "@/components/ListSignup";
 import { ScrollRibbon } from "@/components/ScrollRibbon";
 import { site } from "@/content/site";
 import type { Artwork } from "@/lib/types";
@@ -81,6 +82,7 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
       </section>
 
       <ScrollRibbon />
+      <ListSignup className="mt-6" />
       <nav
         aria-label="Elsewhere"
         className="grid grid-cols-4 border-t border-ink lg:mt-auto"
