@@ -35,7 +35,7 @@ import listeningPartyPreview from "@/public/art/gallery/listening-party.jpg";
 import type { StaticImageData } from "next/image";
 
 const medium =
-  "Graphite, alcohol marker, and colored pencil on paper. Primarily a G-pen and an A-pen, in Deleter Black 4 and Deleter White 2.";
+  "Graphite, alcohol marker, and colored pencil on paper. Linework with a G-pen (Gペン) and an A-pen (丸ペンA〈硬筆〉), in Deleter Black 4 (デリーターブラック4) and Deleter White 2 (デリーターホワイト2).";
 
 function pictureFor(swatch: StaticImageData, meanAfter?: number) {
   return {
