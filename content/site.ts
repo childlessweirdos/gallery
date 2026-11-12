@@ -6,7 +6,6 @@ export const site = {
   issue: "No. 01",
   url: "https://childlessweirdos.com",
   artist: "Danny Stief",
-  comics: "https://childlessweirdos.carrd.co/",
   analyticsId: "G-L15LMGJ700",
   instagram: "https://instagram.com/childlessweirdos",
   kofi: "https://ko-fi.com/childlessweirdos",

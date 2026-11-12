@@ -97,14 +97,12 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
         >
           Contact
         </Link>
-        <a
-          href={site.comics}
-          target="_blank"
-          rel="noreferrer"
+        <Link
+          href="/comics"
           className="border-r border-ink px-2 py-4 text-center font-mono text-[10px] uppercase tracking-[0.14em] hover:bg-ink hover:text-paper focus-visible:bg-ink focus-visible:text-paper sm:text-[11px] sm:tracking-[0.16em]"
         >
           Comics
-        </a>
+        </Link>
         <Link
           href="/aspects-of-fate"
           className="px-2 py-3 text-center font-mono text-[10px] uppercase leading-tight tracking-[0.12em] hover:bg-ink hover:text-paper focus-visible:bg-ink focus-visible:text-paper sm:py-4 sm:text-[11px] sm:tracking-[0.14em]"

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "images": "sh scripts/derive-web-images.sh"
+    "images": "sh scripts/derive-web-images.sh",
+    "comics": "python3 scripts/derive-comic-strips.py"
   },
   "dependencies": {
     "@next/third-parties": "16.4.2",

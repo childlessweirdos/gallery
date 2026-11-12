@@ -8,6 +8,7 @@ import { site } from "@/content/site";
 export function SiteHeader() {
   const pathname = usePathname();
   const onWork = pathname.startsWith("/work");
+  const onComics = pathname.startsWith("/comics");
   const onContact = pathname.startsWith("/contact");
 
   return (
@@ -18,14 +19,14 @@ export function SiteHeader() {
           <span>{site.issue}</span>
         </div>
         <InkMark className="mt-2 w-16" />
-        <div className="flex items-baseline justify-between gap-6 py-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 py-4">
           <Link
             href="/"
-            className="font-display text-xl leading-none tracking-[-0.03em]"
+            className="whitespace-nowrap font-display text-xl leading-none tracking-[-0.03em]"
           >
             {site.name}
           </Link>
-          <nav className="flex gap-5 font-mono text-[11px] uppercase tracking-[0.16em]">
+          <nav className="flex gap-4 font-mono text-[10px] uppercase tracking-[0.14em] sm:gap-5 sm:text-[11px] sm:tracking-[0.16em]">
             <Link
               href="/"
               aria-current={pathname === "/" ? "page" : undefined}
@@ -39,6 +40,13 @@ export function SiteHeader() {
               className="ink-link pb-1"
             >
               Work
+            </Link>
+            <Link
+              href="/comics"
+              aria-current={onComics ? "page" : undefined}
+              className="ink-link pb-1"
+            >
+              Comics
             </Link>
             <Link
               href="/contact"
