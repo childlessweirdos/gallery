@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArtworkInspect } from "@/components/ArtworkInspect";
+import { ListSignup } from "@/components/ListSignup";
 import { PrintInterest } from "@/components/PrintInterest";
 import type { Artwork } from "@/lib/types";
 
@@ -91,6 +92,7 @@ export function ArtworkDetail({
       <div className="lg:hidden">
         <PrintInterest slug={artwork.slug} title={artwork.title} idSuffix="-phone" />
       </div>
+      <ListSignup className="mt-8" />
     </article>
   );
 }

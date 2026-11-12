@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import { InkMark } from "@/components/InkMark";
-import { ListSignup } from "@/components/ListSignup";
 import { SupportAsk } from "@/components/SupportAsk";
 import { site } from "@/content/site";
 
@@ -27,8 +26,7 @@ export function SiteFooter() {
         <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em]">
           {site.artist} · {site.city}
         </p>
-        <ListSignup className={onWork ? "mt-4" : "mt-8"} />
-        <SupportAsk className={onWork ? "mt-4" : "mt-6"} />
+        <SupportAsk className={onWork ? "mt-3" : "mt-8"} />
       </div>
     </footer>
   );

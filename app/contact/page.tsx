@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ListSignup } from "@/components/ListSignup";
 import { PrintInterest } from "@/components/PrintInterest";
 import { site } from "@/content/site";
 import { getArtworks } from "@/lib/artworks";
@@ -33,6 +34,7 @@ export default function ContactPage() {
       >
         @childlessweirdos
       </a>
+      <ListSignup className="mt-10" />
       <div className="mt-10 max-w-xl">
         <PrintInterest choices={choices} idSuffix="-contact" />
       </div>
