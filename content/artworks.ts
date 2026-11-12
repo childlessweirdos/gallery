@@ -19,6 +19,8 @@ import groundBall from "@/public/art/ground-ball.jpg";
 import groundBallSwatch from "@/public/art/ground-ball-swatch.png";
 import itsALimitedEdition from "@/public/art/its-a-limited-edition.jpg";
 import itsALimitedEditionSwatch from "@/public/art/its-a-limited-edition-swatch.png";
+import listeningParty from "@/public/art/listening-party.jpg";
+import listeningPartySwatch from "@/public/art/listening-party-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -29,10 +31,11 @@ import gachaponTravelerPreview from "@/public/art/gallery/gachapon-traveler.jpg"
 import bubbleMaticPreview from "@/public/art/gallery/bubble-matic.jpg";
 import groundBallPreview from "@/public/art/gallery/ground-ball.jpg";
 import itsALimitedEditionPreview from "@/public/art/gallery/its-a-limited-edition.jpg";
+import listeningPartyPreview from "@/public/art/gallery/listening-party.jpg";
 import type { StaticImageData } from "next/image";
 
 const medium =
-  "Graphite, alcohol marker, ink, and colored pencil on paper";
+  "Graphite, alcohol marker, and colored pencil on paper. Primarily a G-pen and an A-pen, in Deleter Black 4 and Deleter White 2.";
 
 function pictureFor(swatch: StaticImageData, meanAfter?: number) {
   return {
@@ -217,5 +220,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "13.38 × 19.18 in",
     picture: pictureFor(itsALimitedEditionSwatch, 6.3),
+  },
+  {
+    id: "listening-party",
+    slug: "listening-party",
+    title: "Listening Party",
+    year: 2026,
+    image: listeningParty,
+    thumbnail: listeningPartyPreview,
+    imageWidth: listeningParty.width,
+    imageHeight: listeningParty.height,
+    altText:
+      "A figure with curly gray-green hair and glasses sits on a stool in a teal hoodie and red top, chin on one hand, teal leg warmers over orange sneakers, a turntable and a crate labeled Herb's against a green panel.",
+    displayOrder: 11,
+    medium,
+    dimensions: "12.69 × 17.58 in",
+    picture: pictureFor(listeningPartySwatch, 6.3),
   },
 ];
