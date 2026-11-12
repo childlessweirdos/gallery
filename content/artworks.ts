@@ -45,9 +45,7 @@ function pictureFor(swatch: StaticImageData, meanAfter?: number) {
       : {
           calibration: {
             measures:
-              "The Nix card from this camera and light, not this drawing.",
-            meanBefore: 8.2,
-            meanAfter,
+              "Camera white balance, then a partial shift toward a reference card from this same light. The card was measured under D50 daylight, with ultraviolet excluded. Not a reading of the illustration.",
           },
         }),
     swatch,

@@ -16,8 +16,6 @@ export type PictureRecord = {
   note: string;
   calibration?: {
     measures: string;
-    meanBefore: number;
-    meanAfter: number;
   };
   swatch?: StaticImageData;
 };

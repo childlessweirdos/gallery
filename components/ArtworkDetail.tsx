@@ -58,19 +58,17 @@ export function ArtworkDetail({
           </p>
           {artwork.picture?.calibration ? (
             <p className="mt-3 max-w-[26ch] font-sans text-sm leading-relaxed">
-              {artwork.picture.calibration.measures} On the card, mean ΔE{" "}
-              {artwork.picture.calibration.meanBefore} to{" "}
-              {artwork.picture.calibration.meanAfter}.
+              {artwork.picture.calibration.measures}
             </p>
           ) : null}
           {artwork.picture?.swatch ? (
             <figure className="mt-5">
               <figcaption className="font-mono text-[11px] uppercase tracking-[0.14em]">
-                Colors from this drawing
+                Colors from this illustration
               </figcaption>
               <Image
                 src={artwork.picture.swatch}
-                alt="Colors measured in this drawing. Paper first. Wider bands cover more of the sheet."
+                alt="Colors measured in this illustration. Paper first. Wider bands cover more of the sheet."
                 unoptimized
                 className="mt-2 h-auto w-full"
               />
