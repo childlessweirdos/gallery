@@ -34,20 +34,13 @@ import itsALimitedEditionPreview from "@/public/art/gallery/its-a-limited-editio
 import listeningPartyPreview from "@/public/art/gallery/listening-party.jpg";
 import type { StaticImageData } from "next/image";
 
+// Every piece on the wall right now is this pad.
 const medium =
-  "Graphite, alcohol marker, and colored pencil on paper. Linework with a G-pen (Gペン) and an A-pen (丸ペンA〈硬筆〉), in Deleter Black 4 (デリーターブラック4) and Deleter White 2 (デリーターホワイト2).";
+  "Graphite, alcohol marker, and colored pencil on Canson XL Mixed Media, 98 lb, 9 × 12 in. Linework with a G-pen (Gペン) and an A-pen (丸ペンA〈硬筆〉), in Deleter Black 4 (デリーターブラック4) and Deleter White 2 (デリーターホワイト2).";
 
-function pictureFor(swatch: StaticImageData, meanAfter?: number) {
+function pictureFor(swatch: StaticImageData) {
   return {
-    note: "Photograph of the drawing, developed to sRGB.",
-    ...(meanAfter === undefined
-      ? {}
-      : {
-          calibration: {
-            measures:
-              "Camera white balance, then a partial shift toward a reference card from this same light. The card was measured under D50 daylight, with ultraviolet excluded. Not a reading of the illustration.",
-          },
-        }),
+    note: "Photograph of the illustration, developed to sRGB.",
     swatch,
   };
 }
@@ -72,7 +65,7 @@ export const artworks: Artwork[] = [
     featured: true,
     medium,
     dimensions: "13.38 × 17.46 in",
-    picture: pictureFor(d953Swatch, 6.3),
+    picture: pictureFor(d953Swatch),
   },
   {
     id: "guqin",
@@ -88,7 +81,7 @@ export const artworks: Artwork[] = [
     displayOrder: 2,
     medium,
     dimensions: "13.15 × 17.74 in",
-    picture: pictureFor(guqinSwatch, 6.2),
+    picture: pictureFor(guqinSwatch),
   },
   {
     id: "for-dexter",
@@ -104,7 +97,7 @@ export const artworks: Artwork[] = [
     displayOrder: 3,
     medium,
     dimensions: "12.74 × 17.18 in",
-    picture: pictureFor(forDexterSwatch, 6.3),
+    picture: pictureFor(forDexterSwatch),
     collections: ["Jazz & Rhythm"],
   },
   {
@@ -121,7 +114,7 @@ export const artworks: Artwork[] = [
     displayOrder: 4,
     medium,
     dimensions: "10.82 × 15.12 in",
-    picture: pictureFor(jetSetOverspraySwatch, 6.3),
+    picture: pictureFor(jetSetOverspraySwatch),
   },
   {
     id: "too-shear",
@@ -153,7 +146,7 @@ export const artworks: Artwork[] = [
     displayOrder: 6,
     medium,
     dimensions: "13.24 × 19.73 in",
-    picture: pictureFor(botBoopSwatch, 6.3),
+    picture: pictureFor(botBoopSwatch),
   },
   {
     id: "gachapon-traveler",
@@ -185,7 +178,7 @@ export const artworks: Artwork[] = [
     displayOrder: 8,
     medium,
     dimensions: "11.71 × 15.78 in",
-    picture: pictureFor(bubbleMaticSwatch, 6.3),
+    picture: pictureFor(bubbleMaticSwatch),
   },
   {
     id: "ground-ball",
@@ -201,7 +194,7 @@ export const artworks: Artwork[] = [
     displayOrder: 9,
     medium,
     dimensions: "12.47 × 16.07 in",
-    picture: pictureFor(groundBallSwatch, 6.3),
+    picture: pictureFor(groundBallSwatch),
   },
   {
     id: "its-a-limited-edition",
@@ -217,7 +210,7 @@ export const artworks: Artwork[] = [
     displayOrder: 10,
     medium,
     dimensions: "13.38 × 19.18 in",
-    picture: pictureFor(itsALimitedEditionSwatch, 6.3),
+    picture: pictureFor(itsALimitedEditionSwatch),
   },
   {
     id: "listening-party",
@@ -233,6 +226,6 @@ export const artworks: Artwork[] = [
     displayOrder: 11,
     medium,
     dimensions: "12.69 × 17.58 in",
-    picture: pictureFor(listeningPartySwatch, 6.3),
+    picture: pictureFor(listeningPartySwatch),
   },
 ];

@@ -14,9 +14,6 @@ export type PrintOption = {
 
 export type PictureRecord = {
   note: string;
-  calibration?: {
-    measures: string;
-  };
   swatch?: StaticImageData;
 };
 

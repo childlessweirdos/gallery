@@ -54,13 +54,8 @@ export function ArtworkDetail({
             ) : null}
           </dl>
           <p className="mt-6 max-w-[26ch] font-sans text-sm leading-relaxed">
-            {artwork.picture?.note ?? "Photograph of the drawing, developed to sRGB."}
+            {artwork.picture?.note ?? "Photograph of the illustration, developed to sRGB."}
           </p>
-          {artwork.picture?.calibration ? (
-            <p className="mt-3 max-w-[26ch] font-sans text-sm leading-relaxed">
-              {artwork.picture.calibration.measures}
-            </p>
-          ) : null}
           {artwork.picture?.swatch ? (
             <figure className="mt-5">
               <figcaption className="font-mono text-[11px] uppercase tracking-[0.14em]">
