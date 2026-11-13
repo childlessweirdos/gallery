@@ -39,7 +39,7 @@ export function SiteHeader() {
               aria-current={onWork ? "page" : undefined}
               className="ink-link pb-1"
             >
-              Work
+              Gallery
             </Link>
             <Link
               href="/comics"

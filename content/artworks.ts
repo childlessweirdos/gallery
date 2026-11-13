@@ -48,6 +48,7 @@ function pictureFor(swatch: StaticImageData) {
 /**
  * One object per piece. To add a work: put a TIFF in masters/ named after
  * the slug, run `npm run images`, then add an entry here.
+ * To hang it in a collection, add the slug to content/collections.ts.
  */
 export const artworks: Artwork[] = [
   {
@@ -98,7 +99,6 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.74 × 17.18 in",
     picture: pictureFor(forDexterSwatch),
-    collections: ["Jazz & Rhythm"],
   },
   {
     id: "jet-set-overspray",

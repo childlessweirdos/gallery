@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
-import { WorkGallery } from "@/components/WorkGallery";
-import { getArtworks } from "@/lib/artworks";
+import { CollectionBoard } from "@/components/CollectionBoard";
+import { getCollectionArtworks, getCollections } from "@/lib/collections";
 
 export const metadata: Metadata = {
-  title: "Work",
+  title: "Gallery",
   description:
-    "Eleven drawings by Danny Stief: D-953, Guqin, For Dexter, Jet-set Overspray, Too Sheer?, Bot Boop, Gachapon Traveler, Bubble-matic, Ground Ball, It's a Limited Edition, and Listening Party.",
+    "Drawings by Danny Stief, hung in collections: Out of This World, BYOM, and Beautifully Strange.",
 };
 
 export default function WorkPage() {
-  return <WorkGallery artworks={getArtworks()} />;
+  const collections = getCollections().map((collection) => ({
+    collection,
+    artworks: getCollectionArtworks(collection),
+  }));
+
+  return <CollectionBoard collections={collections} />;
 }

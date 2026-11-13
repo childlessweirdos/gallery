@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArtworkInspect } from "@/components/ArtworkInspect";
 import { ListSignup } from "@/components/ListSignup";
 import { PrintInterest } from "@/components/PrintInterest";
+import { getArtworkCollections } from "@/lib/collections";
 import type { Artwork } from "@/lib/types";
 
 export function ArtworkDetail({
@@ -14,6 +15,8 @@ export function ArtworkDetail({
   previous?: Artwork;
   next?: Artwork;
 }) {
+  const collections = getArtworkCollections(artwork.slug);
+
   return (
     <article className="mx-auto max-w-6xl">
       <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12">
@@ -47,10 +50,21 @@ export function ArtworkDetail({
                 <dd className="normal-case tracking-normal">{artwork.dimensions}</dd>
               </div>
             ) : null}
-            {artwork.collections?.length ? (
+            {collections.length ? (
               <div>
-                <dt className="text-ink/55">Collection</dt>
-                <dd>{artwork.collections.join(", ")}</dd>
+                <dt className="text-ink/55">
+                  {collections.length === 1 ? "Collection" : "Collections"}
+                </dt>
+                <dd>
+                  {collections.map((collection, index) => (
+                    <span key={collection.id}>
+                      {index > 0 ? ", " : null}
+                      <Link href={`/work/${collection.slug}`} className="ink-link">
+                        {collection.title}
+                      </Link>
+                    </span>
+                  ))}
+                </dd>
               </div>
             ) : null}
           </dl>
