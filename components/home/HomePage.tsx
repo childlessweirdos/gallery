@@ -1,14 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Drift } from "@/components/Drift";
-import { Frame } from "@/components/Frame";
+import { HomeLead } from "@/components/home/HomeLead";
 import { InkMark } from "@/components/InkMark";
 import { ScrollRibbon } from "@/components/ScrollRibbon";
 import { site } from "@/content/site";
 import type { Artwork } from "@/lib/types";
 
 export function HomePage({ artworks }: { artworks: Artwork[] }) {
-  const featured = artworks.find((artwork) => artwork.featured) ?? artworks[0];
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col pb-5">
@@ -56,28 +54,7 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
           </div>
         </div>
 
-        {featured ? (
-          <figure className="lg:col-span-6 lg:col-start-7 lg:self-center">
-            <div className="sheet-in">
-              <Link href={`/work/${featured.slug}`} className="group inline-block max-w-full">
-                <Frame>
-                  <Image
-                    src={featured.image}
-                    alt={featured.altText}
-                    priority
-                    quality={90}
-                    sizes="(min-width: 1024px) 40vw, 90vw"
-                    className="framed-home lead"
-                  />
-                </Frame>
-                <figcaption className="plate-in mt-3 flex items-baseline justify-end gap-3 font-mono text-[11px] uppercase tracking-[0.16em]">
-                  <span className="ink-link">{featured.title}</span>
-                  <span className="text-ink/55">{featured.year}</span>
-                </figcaption>
-              </Link>
-            </div>
-          </figure>
-        ) : null}
+        <HomeLead artworks={artworks} />
       </section>
 
       <ScrollRibbon />
