@@ -21,6 +21,8 @@ import itsALimitedEdition from "@/public/art/its-a-limited-edition.jpg";
 import itsALimitedEditionSwatch from "@/public/art/its-a-limited-edition-swatch.png";
 import listeningParty from "@/public/art/listening-party.jpg";
 import listeningPartySwatch from "@/public/art/listening-party-swatch.png";
+import sameSorta from "@/public/art/same-sorta.jpg";
+import sameSortaSwatch from "@/public/art/same-sorta-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -32,6 +34,7 @@ import bubbleMaticPreview from "@/public/art/gallery/bubble-matic.jpg";
 import groundBallPreview from "@/public/art/gallery/ground-ball.jpg";
 import itsALimitedEditionPreview from "@/public/art/gallery/its-a-limited-edition.jpg";
 import listeningPartyPreview from "@/public/art/gallery/listening-party.jpg";
+import sameSortaPreview from "@/public/art/gallery/same-sorta.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -227,5 +230,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.69 × 17.58 in",
     picture: pictureFor(listeningPartySwatch),
+  },
+  {
+    id: "same-sorta",
+    slug: "same-sorta",
+    title: "Same Sorta",
+    year: 2026,
+    image: sameSorta,
+    thumbnail: sameSortaPreview,
+    imageWidth: sameSorta.width,
+    imageHeight: sameSorta.height,
+    altText:
+      "A green-skinned figure with pointed ears, curly gray hair, and glasses stands barefoot in a magenta geometric skirt and an orange wrap, one hand at their chin, beside a carved wooden Buddha.",
+    displayOrder: 12,
+    medium,
+    dimensions: "12.01 × 17.94 in",
+    picture: pictureFor(sameSortaSwatch),
   },
 ];

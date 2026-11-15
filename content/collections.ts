@@ -33,6 +33,7 @@ export const collections: Collection[] = [
       "bubble-matic",
       "ground-ball",
       "its-a-limited-edition",
+      "same-sorta",
     ],
   },
   {
@@ -61,6 +62,7 @@ export const collections: Collection[] = [
       "ground-ball",
       "bot-boop",
       "d-953",
+      "same-sorta",
     ],
   },
   {
