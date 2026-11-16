@@ -23,6 +23,8 @@ import listeningParty from "@/public/art/listening-party.jpg";
 import listeningPartySwatch from "@/public/art/listening-party-swatch.png";
 import sameSorta from "@/public/art/same-sorta.jpg";
 import sameSortaSwatch from "@/public/art/same-sorta-swatch.png";
+import soYouveArrived from "@/public/art/so-youve-arrived.jpg";
+import soYouveArrivedSwatch from "@/public/art/so-youve-arrived-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -35,6 +37,7 @@ import groundBallPreview from "@/public/art/gallery/ground-ball.jpg";
 import itsALimitedEditionPreview from "@/public/art/gallery/its-a-limited-edition.jpg";
 import listeningPartyPreview from "@/public/art/gallery/listening-party.jpg";
 import sameSortaPreview from "@/public/art/gallery/same-sorta.jpg";
+import soYouveArrivedPreview from "@/public/art/gallery/so-youve-arrived.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -246,5 +249,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.01 × 17.94 in",
     picture: pictureFor(sameSortaSwatch),
+  },
+  {
+    id: "so-youve-arrived",
+    slug: "so-youve-arrived",
+    title: "So You've Arrived",
+    year: 2026,
+    image: soYouveArrived,
+    thumbnail: soYouveArrivedPreview,
+    imageWidth: soYouveArrived.width,
+    imageHeight: soYouveArrived.height,
+    altText:
+      "A green-skinned figure with curly hair and glasses hangs barefoot in an olive dress, arms behind their head, a red sash down the center and one knee lifted, an anklet on that ankle, against a dark green circle.",
+    displayOrder: 13,
+    medium,
+    dimensions: "12.82 × 18.21 in",
+    picture: pictureFor(soYouveArrivedSwatch),
   },
 ];

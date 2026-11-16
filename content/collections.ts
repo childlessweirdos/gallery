@@ -63,6 +63,7 @@ export const collections: Collection[] = [
       "bot-boop",
       "d-953",
       "same-sorta",
+      "so-youve-arrived",
     ],
   },
   {
