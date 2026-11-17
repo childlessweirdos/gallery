@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Frame } from "@/components/Frame";
 import type { Artwork } from "@/lib/types";
 
@@ -10,14 +10,14 @@ const walkSpeed = 28;
 
 function GalleryPiece({ artwork }: { artwork: Artwork }) {
   return (
-    <li className="shrink-0">
+    <li className="min-w-0 md:shrink-0">
       <Link
         href={`/work/${artwork.slug}`}
         draggable={false}
         onDragStart={(event) => event.preventDefault()}
-        className="group inline-block"
+        className="group block md:inline-block"
       >
-        <Frame>
+        <Frame className="w-full md:w-auto">
           <Image
             src={artwork.thumbnail ?? artwork.image}
             alt={artwork.altText}
@@ -28,7 +28,7 @@ function GalleryPiece({ artwork }: { artwork: Artwork }) {
             className="gallery-sheet"
           />
         </Frame>
-        <span className="mt-3 block font-display text-3xl leading-none tracking-[-0.03em]">
+        <span className="mt-3 block font-display text-xl leading-[1.05] tracking-[-0.03em] md:text-3xl md:leading-none">
           <span className="ink-link">{artwork.title}</span>
         </span>
         <span className="mt-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-ink/55">
@@ -42,6 +42,9 @@ function GalleryPiece({ artwork }: { artwork: Artwork }) {
 export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
   const rail = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const [walk, setWalk] = useState(false);
+  const walking = useRef(false);
+  walking.current = walk;
   const loop = useRef(0);
   const paused = useRef(false);
   const drag = useRef<{
@@ -62,9 +65,17 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
   });
 
   useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const apply = () => setWalk(media.matches);
+    apply();
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
     const element = rail.current;
     const row = track.current;
-    if (!element || !row) return;
+    if (!walk || !element || !row) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let wheelTimer = 0;
@@ -136,8 +147,10 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
       window.clearTimeout(wheelTimer);
       observer.disconnect();
       element.removeEventListener("wheel", onWheel);
+      row.classList.remove("is-walking");
+      row.style.transform = "";
     };
-  }, []);
+  }, [walk]);
 
   return (
     <div>
@@ -149,10 +162,10 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
         ref={rail}
         role="region"
         aria-label="The drawings"
-        className="gallery-rail overflow-hidden px-5 pb-2 outline-none md:px-10"
+        className="gallery-rail overflow-visible px-5 pb-2 outline-none md:overflow-hidden md:px-10"
         onDragStart={(event) => event.preventDefault()}
         onPointerDown={(event) => {
-          if (event.button !== 0) return;
+          if (!walking.current || event.button !== 0) return;
           window.getSelection()?.removeAllRanges();
           drag.current = {
             x: event.clientX,
@@ -162,6 +175,7 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
           };
         }}
         onPointerMove={(event) => {
+          if (!walking.current) return;
           const current = drag.current;
           const element = rail.current;
           const row = track.current;
@@ -183,6 +197,7 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
           row.style.transform = `translate3d(${current.origin + dx}px, 0, 0)`;
         }}
         onPointerUp={() => {
+          if (!walking.current) return;
           const moved = drag.current?.moved ?? false;
           drag.current = null;
           rail.current?.classList.remove("is-grabbing");
@@ -190,6 +205,7 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
           if (!paused.current) motion.current.playFrom(motion.current.currentX());
         }}
         onPointerCancel={() => {
+          if (!walking.current) return;
           drag.current = null;
           rail.current?.classList.remove("is-grabbing");
           if (!paused.current) motion.current.playFrom(motion.current.currentX());
@@ -201,32 +217,36 @@ export function WorkGallery({ artworks }: { artworks: Artwork[] }) {
           suppressClick.current = false;
         }}
         onFocusCapture={() => {
+          if (!walking.current) return;
           paused.current = true;
           const row = track.current;
           if (!row) return;
           row.style.animationPlayState = "paused";
         }}
         onBlurCapture={(event) => {
+          if (!walking.current) return;
           if (event.currentTarget.contains(event.relatedTarget as Node)) return;
           paused.current = false;
           if (!drag.current) motion.current.playFrom(motion.current.currentX());
         }}
       >
-        <div ref={track} className="gallery-track flex w-max items-start">
-          <ul className="flex w-max shrink-0 items-start gap-8 pr-8 md:gap-12 md:pr-12">
+        <div ref={track} className="gallery-track w-full md:flex md:w-max md:items-start">
+          <ul className="grid w-full grid-cols-2 gap-x-4 gap-y-10 md:flex md:w-max md:shrink-0 md:items-start md:gap-12 md:pr-12">
             {artworks.map((artwork) => (
               <GalleryPiece key={artwork.id} artwork={artwork} />
             ))}
           </ul>
-          <ul
-            className="flex w-max shrink-0 items-start gap-8 pr-8 md:gap-12 md:pr-12"
-            aria-hidden="true"
-            inert
-          >
-            {artworks.map((artwork) => (
-              <GalleryPiece key={`${artwork.id}-loop`} artwork={artwork} />
-            ))}
-          </ul>
+          {walk ? (
+            <ul
+              className="flex w-max shrink-0 items-start gap-12 pr-12"
+              aria-hidden="true"
+              inert
+            >
+              {artworks.map((artwork) => (
+                <GalleryPiece key={`${artwork.id}-loop`} artwork={artwork} />
+              ))}
+            </ul>
+          ) : null}
         </div>
       </div>
     </div>

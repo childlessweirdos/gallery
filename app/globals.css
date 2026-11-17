@@ -122,14 +122,23 @@ img.framed-sheet {
   }
 }
 
-/* Preview sheets in the work gallery. Desktop leaves room for the support ask. */
+/* Preview sheets in the work gallery. On a phone the wall is a grid,
+   so each sheet fills its column. Desktop leaves room for the support ask. */
 img.gallery-sheet {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
-  max-width: min(70vw, 240px);
-  max-height: min(34vh, 300px);
+  max-width: 100%;
+  max-height: none;
   object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  img.gallery-sheet {
+    width: auto;
+    max-width: min(70vw, 240px);
+    max-height: min(34vh, 300px);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -155,8 +164,15 @@ img.gallery-sheet {
 }
 
 .gallery-rail {
-  cursor: grab;
-  touch-action: pan-y;
+  cursor: auto;
+  touch-action: auto;
+}
+
+@media (min-width: 768px) {
+  .gallery-rail {
+    cursor: grab;
+    touch-action: pan-y;
+  }
 }
 
 .gallery-rail.is-grabbing {
