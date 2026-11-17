@@ -68,7 +68,7 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
 
   return (
     <div
-      className="flex h-full cursor-pointer flex-col"
+      className="flex min-h-full cursor-pointer flex-col md:h-full"
       role="button"
       tabIndex={0}
       aria-pressed={paused}
@@ -97,8 +97,8 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
         </span>
       </p>
 
-      <div className="flex min-h-0 flex-1 flex-col landscape:flex-row">
-      <div className="flex min-h-0 min-w-0 flex-1 px-5 pb-4 pt-3 sm:px-8 landscape:pb-6 landscape:pr-4">
+      <div className="flex flex-col md:min-h-0 md:flex-1 md:landscape:flex-row">
+      <div className="flex h-[56vh] min-w-0 px-5 pb-4 pt-3 sm:px-8 md:h-auto md:min-h-0 md:flex-1 md:landscape:pb-6 md:landscape:pr-4">
         <div className="flex h-full w-full bg-ink p-2 sm:p-2.5">
           <div className="relative h-full w-full bg-[#fbfaf6]">
             <div className="absolute inset-3 sm:inset-5">
@@ -113,7 +113,7 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
                     fill
                     priority={imageIndex === 0}
                     quality={90}
-                    sizes="(orientation: landscape) 60vw, 100vw"
+                    sizes="(min-width: 768px) and (orientation: landscape) 60vw, 100vw"
                     aria-hidden={visible ? undefined : true}
                     className={`object-contain transition-opacity ease-out motion-reduce:transition-none ${
                       visible ? "opacity-100" : "opacity-0"
@@ -129,25 +129,25 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
 
       <section
         aria-live="polite"
-        className="shrink-0 border-t border-ink px-5 pb-5 pt-4 sm:px-8 sm:pb-6 sm:pt-5 landscape:min-h-0 landscape:w-[min(34rem,40%)] landscape:overflow-y-auto landscape:border-t-0 landscape:border-l landscape:py-6"
+        className="shrink-0 border-t border-ink px-5 pb-8 pt-4 sm:px-8 md:pb-6 md:pt-5 md:landscape:min-h-0 md:landscape:w-[min(34rem,40%)] md:landscape:overflow-y-auto md:landscape:border-t-0 md:landscape:border-l md:landscape:py-6"
       >
-        <h1 className="min-h-[1.84em] font-display text-[clamp(2.75rem,4.2vh,4.5rem)] leading-[0.92] tracking-[-0.03em] landscape:text-[clamp(2.4rem,4.6vh,3.6rem)]">
+        <h1 className="font-display text-4xl leading-[0.92] tracking-[-0.03em] md:min-h-[1.84em] md:text-[clamp(2.75rem,4.2vh,4.5rem)] md:landscape:text-[clamp(2.4rem,4.6vh,3.6rem)]">
           {current.title}
         </h1>
-        <dl className="mt-4 grid grid-cols-3 gap-4 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em]">
+        <dl className="mt-4 grid grid-cols-1 gap-3 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] md:grid-cols-3 md:gap-4">
           <div>
             <dt className="text-ink/55">Year</dt>
             <dd className="mt-1">{current.year}</dd>
           </div>
           <div>
             <dt className="text-ink/55">Sheet</dt>
-            <dd className="mt-1 min-h-[2.6em] normal-case tracking-normal">
+            <dd className="mt-1 normal-case tracking-normal md:min-h-[2.6em]">
               {current.dimensions ?? "—"}
             </dd>
           </div>
           <div>
             <dt className="text-ink/55">{collectionLabel}</dt>
-            <dd className="mt-1 min-h-[2.6em]">
+            <dd className="mt-1 md:min-h-[2.6em]">
               {collections.length
                 ? collections.map((collection) => collection.title).join(", ")
                 : "—"}
@@ -159,7 +159,7 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/55">
               Medium
             </p>
-            <p className="mt-1 min-h-[4.5em] font-sans text-sm leading-relaxed">
+            <p className="mt-1 font-sans text-sm leading-relaxed md:min-h-[4.5em]">
               {current.medium}
             </p>
           </div>

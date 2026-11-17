@@ -20,7 +20,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
   if (kiosk) {
     return (
-      <main id="content" className="fixed inset-0 overflow-hidden bg-paper">
+      <main id="content" className="fixed inset-0 overflow-y-auto bg-paper md:overflow-hidden">
         {children}
       </main>
     );
