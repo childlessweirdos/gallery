@@ -3,8 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
-import { getArtworkCollections } from "@/lib/collections";
+import { getArtworkCollections, getCollections } from "@/lib/collections";
 import type { Artwork } from "@/lib/types";
+
+const storageKey = "cw-kiosk-collections";
 
 const holdMs = 18000;
 const fadeMs = 700;
@@ -20,10 +22,45 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
   const [outgoing, setOutgoing] = useState<number | null>(null);
   const [reduce, setReduce] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [chosen, setChosen] = useState<string[]>(() => getCollections().map((collection) => collection.slug));
+  const chosenKey = chosen.join("|");
+  const [deckKey, setDeckKey] = useState(chosenKey);
   const previous = useRef(0);
 
-  const count = artworks.length;
-  const current = artworks[index];
+  if (chosenKey !== deckKey) {
+    setDeckKey(chosenKey);
+    setIndex(0);
+    setOutgoing(null);
+    previous.current = 0;
+  }
+
+  const available = getCollections();
+  const showing = artworks.filter((artwork) =>
+    getArtworkCollections(artwork.slug).some((collection) => chosen.includes(collection.slug)),
+  );
+  const deck = showing.length ? showing : artworks;
+  const count = deck.length;
+  const shown = Math.min(index, Math.max(count - 1, 0));
+  const current = deck[shown];
+
+  useEffect(() => {
+    const slugs = getCollections().map((collection) => collection.slug);
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) ?? "");
+      const next = slugs.filter((slug) => Array.isArray(saved) && saved.includes(slug));
+      if (next.length) setChosen(next);
+    } catch {
+      // An empty or old setting just shows every collection.
+    }
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    localStorage.setItem(storageKey, JSON.stringify(chosen));
+  }, [chosen, ready]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -45,12 +82,12 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
   }, [index]);
 
   useEffect(() => {
-    if (reduce || paused || count < 2) return;
+    if (reduce || paused || settingsOpen || count < 2) return;
     const timer = window.setTimeout(() => {
       setIndex((shown) => (shown + 1) % count);
     }, holdMs);
     return () => window.clearTimeout(timer);
-  }, [count, index, paused, reduce]);
+  }, [count, index, paused, reduce, settingsOpen]);
 
   useEffect(() => {
     if (!paused) return;
@@ -60,8 +97,8 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
 
   if (!current) return null;
 
-  const next = (index + 1) % count;
-  const mounted = new Set<number>([index, next]);
+  const next = (shown + 1) % count;
+  const mounted = new Set<number>([shown, next]);
   if (outgoing !== null) mounted.add(outgoing);
   const collections = getArtworkCollections(current.slug);
   const collectionLabel = collections.length === 1 ? "Collection" : "Collections";
@@ -69,42 +106,79 @@ export function Kiosk({ artworks }: { artworks: Artwork[] }) {
   return (
     <div
       className="flex min-h-full cursor-pointer flex-col md:h-full"
-      role="button"
-      tabIndex={0}
-      aria-pressed={paused}
-      aria-label={
-        paused
-          ? `${current.title}, held. Click to continue.`
-          : `${current.title}. Click to hold.`
-      }
-      onClick={() => {
+      onClick={(event) => {
         if (reduce) return;
-        setPaused((held) => !held);
-      }}
-      onKeyDown={(event) => {
-        if (reduce) return;
-        if (event.key !== "Enter" && event.key !== " ") return;
-        event.preventDefault();
+        if ((event.target as HTMLElement).closest("[data-kiosk-settings]")) return;
         setPaused((held) => !held);
       }}
     >
-      <p className="flex shrink-0 items-baseline justify-between gap-4 px-5 pt-4 font-mono text-[11px] uppercase tracking-[0.16em] sm:px-8 sm:pt-5">
+      <div className="flex shrink-0 items-baseline justify-between gap-4 px-5 pt-4 font-mono text-[11px] uppercase tracking-[0.16em] sm:px-8 sm:pt-5">
         <span>{site.city}</span>
         <span className="text-ink/55">{site.issue}</span>
         <span className="flex items-baseline gap-3">
+          <span data-kiosk-settings>
+          <button
+            type="button"
+            aria-expanded={settingsOpen}
+            className="ink-link"
+            onClick={() => setSettingsOpen((open) => !open)}
+          >
+            Show
+          </button>
+          </span>
           {paused ? <span className="text-vermilion">Held</span> : null}
-          <span>{place(index, count)}</span>
+          <span>{place(shown, count)}</span>
         </span>
-      </p>
+      </div>
+      {settingsOpen ? (
+        <div
+          data-kiosk-settings
+          className="flex shrink-0 flex-wrap items-baseline gap-x-6 gap-y-2 border-b border-ink px-5 py-3 sm:px-8"
+        >
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink/55">
+            Collections in this showing
+          </p>
+          {available.map((collection) => {
+            const checked = chosen.includes(collection.slug);
+            const last = checked && chosen.length === 1;
+            return (
+              <label key={collection.id} className="flex items-baseline gap-2 normal-case tracking-normal">
+                <input
+                  type="checkbox"
+                  className="accent-ink"
+                  checked={checked}
+                  disabled={last}
+                  onChange={() => {
+                    setChosen((current) => {
+                      const next = checked
+                        ? current.filter((slug) => slug !== collection.slug)
+                        : [...current, collection.slug];
+                      const order = available.map((item) => item.slug);
+                      return order.filter((slug) => next.includes(slug));
+                    });
+                  }}
+                />
+                <span className="font-display text-lg leading-none tracking-[-0.03em]">
+                  {collection.title}
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink/55">
+                  {collection.pieces.length}{" "}
+                  {collection.pieces.length === 1 ? "drawing" : "drawings"}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      ) : null}
 
       <div className="flex flex-col md:min-h-0 md:flex-1 md:landscape:flex-row">
       <div className="flex h-[56vh] min-w-0 px-5 pb-4 pt-3 sm:px-8 md:h-auto md:min-h-0 md:flex-1 md:landscape:pb-6 md:landscape:pr-4">
         <div className="flex h-full w-full bg-ink p-2 sm:p-2.5">
           <div className="relative h-full w-full bg-[#fbfaf6]">
             <div className="absolute inset-3 sm:inset-5">
-              {artworks.map((artwork, imageIndex) => {
+              {deck.map((artwork, imageIndex) => {
                 if (!mounted.has(imageIndex)) return null;
-                const visible = imageIndex === index;
+                const visible = imageIndex === shown;
                 return (
                   <Image
                     key={artwork.id}

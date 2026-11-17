@@ -8,6 +8,7 @@ import { site } from "@/content/site";
 export function SiteHeader() {
   const pathname = usePathname();
   const onWork = pathname.startsWith("/work");
+  const onKiosk = pathname === "/kiosk";
   const onComics = pathname.startsWith("/comics");
   const onContact = pathname.startsWith("/contact");
 
@@ -40,6 +41,13 @@ export function SiteHeader() {
               className="ink-link pb-1"
             >
               Gallery
+            </Link>
+            <Link
+              href="/kiosk"
+              aria-current={onKiosk ? "page" : undefined}
+              className="ink-link pb-1"
+            >
+              Kiosk
             </Link>
             <Link
               href="/comics"
