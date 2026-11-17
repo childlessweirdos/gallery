@@ -28,7 +28,7 @@ function GalleryPiece({ artwork }: { artwork: Artwork }) {
             className="gallery-sheet"
           />
         </Frame>
-        <span className="mt-3 block font-display text-xl leading-[1.05] tracking-[-0.03em] md:text-3xl md:leading-none">
+        <span className="mt-3 block min-h-[2.1em] font-display text-xl leading-[1.05] tracking-[-0.03em] md:min-h-0 md:text-3xl md:leading-none">
           <span className="ink-link">{artwork.title}</span>
         </span>
         <span className="mt-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-ink/55">

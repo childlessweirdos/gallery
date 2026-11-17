@@ -130,6 +130,7 @@ img.gallery-sheet {
   height: auto;
   max-width: 100%;
   max-height: none;
+  aspect-ratio: 3 / 4;
   object-fit: contain;
 }
 
@@ -138,6 +139,7 @@ img.gallery-sheet {
     width: auto;
     max-width: min(70vw, 240px);
     max-height: min(34vh, 300px);
+    aspect-ratio: auto;
   }
 }
 
