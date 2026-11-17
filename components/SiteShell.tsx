@@ -8,10 +8,19 @@ import { SiteHeader } from "@/components/SiteHeader";
 export function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const game = pathname.startsWith("/aspects-of-fate");
+  const kiosk = pathname === "/kiosk";
 
   if (game) {
     return (
       <main id="content" className="fixed inset-0 bg-[#0b0804]">
+        {children}
+      </main>
+    );
+  }
+
+  if (kiosk) {
+    return (
+      <main id="content" className="fixed inset-0 overflow-hidden bg-paper">
         {children}
       </main>
     );
