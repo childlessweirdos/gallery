@@ -44,7 +44,7 @@ export const collections: Collection[] = [
     description: "Instruments, performance, listening, and the pieces that belong with them.",
     enabled: true,
     displayOrder: 2,
-    pieces: ["guqin", "for-dexter", "bubble-matic", "listening-party", "echo-my-location"],
+    pieces: ["guqin", "for-dexter", "bubble-matic", "listening-party", "echo-my-location", "oh-my-paper-stars"],
   },
   {
     id: "beautifully-strange",
@@ -64,6 +64,7 @@ export const collections: Collection[] = [
       "d-953",
       "same-sorta",
       "so-youve-arrived",
+      "oh-my-paper-stars",
     ],
   },
   {

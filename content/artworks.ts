@@ -27,6 +27,8 @@ import soYouveArrived from "@/public/art/so-youve-arrived.jpg";
 import soYouveArrivedSwatch from "@/public/art/so-youve-arrived-swatch.png";
 import echoMyLocation from "@/public/art/echo-my-location.jpg";
 import echoMyLocationSwatch from "@/public/art/echo-my-location-swatch.png";
+import ohMyPaperStars from "@/public/art/oh-my-paper-stars.jpg";
+import ohMyPaperStarsSwatch from "@/public/art/oh-my-paper-stars-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -41,6 +43,7 @@ import listeningPartyPreview from "@/public/art/gallery/listening-party.jpg";
 import sameSortaPreview from "@/public/art/gallery/same-sorta.jpg";
 import soYouveArrivedPreview from "@/public/art/gallery/so-youve-arrived.jpg";
 import echoMyLocationPreview from "@/public/art/gallery/echo-my-location.jpg";
+import ohMyPaperStarsPreview from "@/public/art/gallery/oh-my-paper-stars.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -284,5 +287,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "13.09 × 18.66 in",
     picture: pictureFor(echoMyLocationSwatch),
+  },
+  {
+    id: "oh-my-paper-stars",
+    slug: "oh-my-paper-stars",
+    title: "Oh My Paper Stars",
+    year: 2026,
+    image: ohMyPaperStars,
+    thumbnail: ohMyPaperStarsPreview,
+    imageWidth: ohMyPaperStars.width,
+    imageHeight: ohMyPaperStars.height,
+    altText:
+      "A figure with short gray hair reclines barefoot in a magenta bodysuit and gray tights, a teal ukulele dotted with yellow stars across their lap, inside a yellow crescent moon with a closed eye and a mouth, against a blue field of stars.",
+    displayOrder: 15,
+    medium,
+    dimensions: "12.59 × 16.56 in",
+    picture: pictureFor(ohMyPaperStarsSwatch),
   },
 ];
