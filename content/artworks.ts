@@ -25,6 +25,8 @@ import sameSorta from "@/public/art/same-sorta.jpg";
 import sameSortaSwatch from "@/public/art/same-sorta-swatch.png";
 import soYouveArrived from "@/public/art/so-youve-arrived.jpg";
 import soYouveArrivedSwatch from "@/public/art/so-youve-arrived-swatch.png";
+import echoMyLocation from "@/public/art/echo-my-location.jpg";
+import echoMyLocationSwatch from "@/public/art/echo-my-location-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -38,6 +40,7 @@ import itsALimitedEditionPreview from "@/public/art/gallery/its-a-limited-editio
 import listeningPartyPreview from "@/public/art/gallery/listening-party.jpg";
 import sameSortaPreview from "@/public/art/gallery/same-sorta.jpg";
 import soYouveArrivedPreview from "@/public/art/gallery/so-youve-arrived.jpg";
+import echoMyLocationPreview from "@/public/art/gallery/echo-my-location.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -265,5 +268,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.82 × 18.21 in",
     picture: pictureFor(soYouveArrivedSwatch),
+  },
+  {
+    id: "echo-my-location",
+    slug: "echo-my-location",
+    title: "Echo My Location",
+    year: 2026,
+    image: echoMyLocation,
+    thumbnail: echoMyLocationPreview,
+    imageWidth: echoMyLocation.width,
+    imageHeight: echoMyLocation.height,
+    altText:
+      "A brown-skinned figure with gray hair pinned in a bun and a gold hoop earring kneels in a dark green sleeveless dress with pink frog closures, playing a three-stringed lute with a square white body, against a yellow panel of concentric arcs.",
+    displayOrder: 14,
+    medium,
+    dimensions: "13.09 × 18.66 in",
+    picture: pictureFor(echoMyLocationSwatch),
   },
 ];
