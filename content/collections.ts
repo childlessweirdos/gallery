@@ -65,6 +65,7 @@ export const collections: Collection[] = [
       "same-sorta",
       "so-youve-arrived",
       "oh-my-paper-stars",
+      "mind-the-void",
     ],
   },
   {

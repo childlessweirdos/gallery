@@ -29,6 +29,8 @@ import echoMyLocation from "@/public/art/echo-my-location.jpg";
 import echoMyLocationSwatch from "@/public/art/echo-my-location-swatch.png";
 import ohMyPaperStars from "@/public/art/oh-my-paper-stars.jpg";
 import ohMyPaperStarsSwatch from "@/public/art/oh-my-paper-stars-swatch.png";
+import mindTheVoid from "@/public/art/mind-the-void.jpg";
+import mindTheVoidSwatch from "@/public/art/mind-the-void-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -44,6 +46,7 @@ import sameSortaPreview from "@/public/art/gallery/same-sorta.jpg";
 import soYouveArrivedPreview from "@/public/art/gallery/so-youve-arrived.jpg";
 import echoMyLocationPreview from "@/public/art/gallery/echo-my-location.jpg";
 import ohMyPaperStarsPreview from "@/public/art/gallery/oh-my-paper-stars.jpg";
+import mindTheVoidPreview from "@/public/art/gallery/mind-the-void.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -303,5 +306,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.59 × 16.56 in",
     picture: pictureFor(ohMyPaperStarsSwatch),
+  },
+  {
+    id: "mind-the-void",
+    slug: "mind-the-void",
+    title: "Mind The Void",
+    year: 2026,
+    image: mindTheVoid,
+    thumbnail: mindTheVoidPreview,
+    imageWidth: mindTheVoid.width,
+    imageHeight: mindTheVoid.height,
+    altText:
+      "A figure with long brown hair and a dangling earring reclines barefoot in a purple off-shoulder top, a chartreuse tank, and cuffed blue trousers, one sole toward the viewer, against a salmon panel and a teal spiral falling into a black center.",
+    displayOrder: 16,
+    medium,
+    dimensions: "13.08 × 16.96 in",
+    picture: pictureFor(mindTheVoidSwatch),
   },
 ];
