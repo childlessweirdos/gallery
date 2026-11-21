@@ -31,6 +31,8 @@ import ohMyPaperStars from "@/public/art/oh-my-paper-stars.jpg";
 import ohMyPaperStarsSwatch from "@/public/art/oh-my-paper-stars-swatch.png";
 import mindTheVoid from "@/public/art/mind-the-void.jpg";
 import mindTheVoidSwatch from "@/public/art/mind-the-void-swatch.png";
+import thoughtsInBloom from "@/public/art/thoughts-in-bloom.jpg";
+import thoughtsInBloomSwatch from "@/public/art/thoughts-in-bloom-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -47,6 +49,7 @@ import soYouveArrivedPreview from "@/public/art/gallery/so-youve-arrived.jpg";
 import echoMyLocationPreview from "@/public/art/gallery/echo-my-location.jpg";
 import ohMyPaperStarsPreview from "@/public/art/gallery/oh-my-paper-stars.jpg";
 import mindTheVoidPreview from "@/public/art/gallery/mind-the-void.jpg";
+import thoughtsInBloomPreview from "@/public/art/gallery/thoughts-in-bloom.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -322,5 +325,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "13.08 × 16.96 in",
     picture: pictureFor(mindTheVoidSwatch),
+  },
+  {
+    id: "thoughts-in-bloom",
+    slug: "thoughts-in-bloom",
+    title: "Thoughts in Bloom",
+    year: 2026,
+    image: thoughtsInBloom,
+    thumbnail: thoughtsInBloomPreview,
+    imageWidth: thoughtsInBloom.width,
+    imageHeight: thoughtsInBloom.height,
+    altText:
+      "A figure with short brown hair sits barefoot on a wooden stool, hands clasped between their knees, in a pink tank top, blue shorts, and a yellow jacket tied at the waist, looking up, framed by magenta peonies and green vines on a dark green oval.",
+    displayOrder: 17,
+    medium,
+    dimensions: "12.65 × 17.06 in",
+    picture: pictureFor(thoughtsInBloomSwatch),
   },
 ];
