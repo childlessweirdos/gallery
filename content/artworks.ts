@@ -33,6 +33,8 @@ import mindTheVoid from "@/public/art/mind-the-void.jpg";
 import mindTheVoidSwatch from "@/public/art/mind-the-void-swatch.png";
 import thoughtsInBloom from "@/public/art/thoughts-in-bloom.jpg";
 import thoughtsInBloomSwatch from "@/public/art/thoughts-in-bloom-swatch.png";
+import emiGlamourOrBedHead from "@/public/art/emi-glamour-or-bed-head.jpg";
+import emiGlamourOrBedHeadSwatch from "@/public/art/emi-glamour-or-bed-head-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -50,6 +52,7 @@ import echoMyLocationPreview from "@/public/art/gallery/echo-my-location.jpg";
 import ohMyPaperStarsPreview from "@/public/art/gallery/oh-my-paper-stars.jpg";
 import mindTheVoidPreview from "@/public/art/gallery/mind-the-void.jpg";
 import thoughtsInBloomPreview from "@/public/art/gallery/thoughts-in-bloom.jpg";
+import emiGlamourOrBedHeadPreview from "@/public/art/gallery/emi-glamour-or-bed-head.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -341,5 +344,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.65 × 17.06 in",
     picture: pictureFor(thoughtsInBloomSwatch),
+  },
+  {
+    id: "emi-glamour-or-bed-head",
+    slug: "emi-glamour-or-bed-head",
+    title: "Emi - Glamour or Bed Head?",
+    year: 2026,
+    image: emiGlamourOrBedHead,
+    thumbnail: emiGlamourOrBedHeadPreview,
+    imageWidth: emiGlamourOrBedHead.width,
+    imageHeight: emiGlamourOrBedHead.height,
+    altText:
+      "A figure with long orange hair piled loosely, strands across the face and shoulders, wears yellow eyeshadow, long silver earrings, and a teal zip-front crop top, against a green panel.",
+    displayOrder: 18,
+    medium,
+    dimensions: "12.67 × 16.35 in",
+    picture: pictureFor(emiGlamourOrBedHeadSwatch),
   },
 ];

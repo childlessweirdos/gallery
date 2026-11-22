@@ -28,7 +28,7 @@ export function HomePage({ artworks }: { artworks: Artwork[] }) {
               <InkMark className="w-28" />
             </Drift>
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em]">
-              Original illustrations by Danny Stief.
+              Original illustrations by {site.artist}.
             </p>
             <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink/55">
               <a
