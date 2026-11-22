@@ -68,6 +68,7 @@ export const collections: Collection[] = [
       "mind-the-void",
       "thoughts-in-bloom",
       "emi-glamour-or-bed-head",
+      "its-kind-of-a-glow-up",
     ],
   },
   {

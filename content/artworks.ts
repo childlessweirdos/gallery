@@ -35,6 +35,8 @@ import thoughtsInBloom from "@/public/art/thoughts-in-bloom.jpg";
 import thoughtsInBloomSwatch from "@/public/art/thoughts-in-bloom-swatch.png";
 import emiGlamourOrBedHead from "@/public/art/emi-glamour-or-bed-head.jpg";
 import emiGlamourOrBedHeadSwatch from "@/public/art/emi-glamour-or-bed-head-swatch.png";
+import itsKindOfAGlowUp from "@/public/art/its-kind-of-a-glow-up.jpg";
+import itsKindOfAGlowUpSwatch from "@/public/art/its-kind-of-a-glow-up-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -53,6 +55,7 @@ import ohMyPaperStarsPreview from "@/public/art/gallery/oh-my-paper-stars.jpg";
 import mindTheVoidPreview from "@/public/art/gallery/mind-the-void.jpg";
 import thoughtsInBloomPreview from "@/public/art/gallery/thoughts-in-bloom.jpg";
 import emiGlamourOrBedHeadPreview from "@/public/art/gallery/emi-glamour-or-bed-head.jpg";
+import itsKindOfAGlowUpPreview from "@/public/art/gallery/its-kind-of-a-glow-up.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -360,5 +363,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.67 × 16.35 in",
     picture: pictureFor(emiGlamourOrBedHeadSwatch),
+  },
+  {
+    id: "its-kind-of-a-glow-up",
+    slug: "its-kind-of-a-glow-up",
+    title: "It's Kind of a Glow Up",
+    year: 2026,
+    image: itsKindOfAGlowUp,
+    thumbnail: itsKindOfAGlowUpPreview,
+    imageWidth: itsKindOfAGlowUp.width,
+    imageHeight: itsKindOfAGlowUp.height,
+    altText:
+      "A figure with curly hair and round glasses sits barefoot among oversized mushrooms, chin on one hand, in a gray hoodie printed with small mushrooms and a long turquoise skirt.",
+    displayOrder: 19,
+    medium,
+    dimensions: "12.97 × 18.69 in",
+    picture: pictureFor(itsKindOfAGlowUpSwatch),
   },
 ];
