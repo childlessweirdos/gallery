@@ -37,6 +37,8 @@ import emiGlamourOrBedHead from "@/public/art/emi-glamour-or-bed-head.jpg";
 import emiGlamourOrBedHeadSwatch from "@/public/art/emi-glamour-or-bed-head-swatch.png";
 import itsKindOfAGlowUp from "@/public/art/its-kind-of-a-glow-up.jpg";
 import itsKindOfAGlowUpSwatch from "@/public/art/its-kind-of-a-glow-up-swatch.png";
+import gonnaPoutAboutIt from "@/public/art/gonna-pout-about-it.jpg";
+import gonnaPoutAboutItSwatch from "@/public/art/gonna-pout-about-it-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -56,6 +58,7 @@ import mindTheVoidPreview from "@/public/art/gallery/mind-the-void.jpg";
 import thoughtsInBloomPreview from "@/public/art/gallery/thoughts-in-bloom.jpg";
 import emiGlamourOrBedHeadPreview from "@/public/art/gallery/emi-glamour-or-bed-head.jpg";
 import itsKindOfAGlowUpPreview from "@/public/art/gallery/its-kind-of-a-glow-up.jpg";
+import gonnaPoutAboutItPreview from "@/public/art/gallery/gonna-pout-about-it.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -379,5 +382,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.97 × 18.69 in",
     picture: pictureFor(itsKindOfAGlowUpSwatch),
+  },
+  {
+    id: "gonna-pout-about-it",
+    slug: "gonna-pout-about-it",
+    title: "Gonna Pout About It",
+    year: 2026,
+    image: gonnaPoutAboutIt,
+    thumbnail: gonnaPoutAboutItPreview,
+    imageWidth: gonnaPoutAboutIt.width,
+    imageHeight: gonnaPoutAboutIt.height,
+    altText:
+      "A figure with gray curly hair piled up and pinned with a green pencil, thick white glasses, a gold nose ring, and small hoop earrings purses their lips, in a pink off-the-shoulder shirt against a dark green rectangle.",
+    displayOrder: 20,
+    medium,
+    dimensions: "13.1 × 17.92 in",
+    picture: pictureFor(gonnaPoutAboutItSwatch),
   },
 ];
