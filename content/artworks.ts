@@ -39,6 +39,8 @@ import itsKindOfAGlowUp from "@/public/art/its-kind-of-a-glow-up.jpg";
 import itsKindOfAGlowUpSwatch from "@/public/art/its-kind-of-a-glow-up-swatch.png";
 import gonnaPoutAboutIt from "@/public/art/gonna-pout-about-it.jpg";
 import gonnaPoutAboutItSwatch from "@/public/art/gonna-pout-about-it-swatch.png";
+import justCutToTheCheese from "@/public/art/just-cut-to-the-cheese.jpg";
+import justCutToTheCheeseSwatch from "@/public/art/just-cut-to-the-cheese-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -59,6 +61,7 @@ import thoughtsInBloomPreview from "@/public/art/gallery/thoughts-in-bloom.jpg";
 import emiGlamourOrBedHeadPreview from "@/public/art/gallery/emi-glamour-or-bed-head.jpg";
 import itsKindOfAGlowUpPreview from "@/public/art/gallery/its-kind-of-a-glow-up.jpg";
 import gonnaPoutAboutItPreview from "@/public/art/gallery/gonna-pout-about-it.jpg";
+import justCutToTheCheesePreview from "@/public/art/gallery/just-cut-to-the-cheese.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -398,5 +401,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "13.1 × 17.92 in",
     picture: pictureFor(gonnaPoutAboutItSwatch),
+  },
+  {
+    id: "just-cut-to-the-cheese",
+    slug: "just-cut-to-the-cheese",
+    title: "Just Cut to the Cheese",
+    year: 2026,
+    image: justCutToTheCheese,
+    thumbnail: justCutToTheCheesePreview,
+    imageWidth: justCutToTheCheese.width,
+    imageHeight: justCutToTheCheese.height,
+    altText:
+      "A figure with shoulder-length brown hair and thick glasses, in a white collared shirt, blue vest, and dark jacket, holds a large knife and reaches toward a cheese board of cheddar, brie, swiss, and purple grapes on a round wooden table, against an orange rectangle.",
+    displayOrder: 21,
+    medium,
+    dimensions: "13.16 × 16.81 in",
+    picture: pictureFor(justCutToTheCheeseSwatch),
   },
 ];

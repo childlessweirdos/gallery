@@ -70,6 +70,7 @@ export const collections: Collection[] = [
       "emi-glamour-or-bed-head",
       "its-kind-of-a-glow-up",
       "gonna-pout-about-it",
+      "just-cut-to-the-cheese",
     ],
   },
   {
