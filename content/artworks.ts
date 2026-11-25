@@ -41,6 +41,8 @@ import gonnaPoutAboutIt from "@/public/art/gonna-pout-about-it.jpg";
 import gonnaPoutAboutItSwatch from "@/public/art/gonna-pout-about-it-swatch.png";
 import justCutToTheCheese from "@/public/art/just-cut-to-the-cheese.jpg";
 import justCutToTheCheeseSwatch from "@/public/art/just-cut-to-the-cheese-swatch.png";
+import pleaseAdjustYourSet from "@/public/art/please-adjust-your-set.jpg";
+import pleaseAdjustYourSetSwatch from "@/public/art/please-adjust-your-set-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -62,6 +64,7 @@ import emiGlamourOrBedHeadPreview from "@/public/art/gallery/emi-glamour-or-bed-
 import itsKindOfAGlowUpPreview from "@/public/art/gallery/its-kind-of-a-glow-up.jpg";
 import gonnaPoutAboutItPreview from "@/public/art/gallery/gonna-pout-about-it.jpg";
 import justCutToTheCheesePreview from "@/public/art/gallery/just-cut-to-the-cheese.jpg";
+import pleaseAdjustYourSetPreview from "@/public/art/gallery/please-adjust-your-set.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -417,5 +420,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "13.16 × 16.81 in",
     picture: pictureFor(justCutToTheCheeseSwatch),
+  },
+  {
+    id: "please-adjust-your-set",
+    slug: "please-adjust-your-set",
+    title: "Please Adjust Your Set",
+    year: 2026,
+    image: pleaseAdjustYourSet,
+    thumbnail: pleaseAdjustYourSetPreview,
+    imageWidth: pleaseAdjustYourSet.width,
+    imageHeight: pleaseAdjustYourSet.height,
+    altText:
+      "A figure with curly hair in two buns, thick square glasses, and gold drop earrings sits barefoot on a wood television in a pink sleeveless turtleneck bodysuit, one hand behind their head, the screen and a panel behind them showing yellow, teal, olive, magenta, and blue bars.",
+    displayOrder: 22,
+    medium,
+    dimensions: "12.77 × 18.06 in",
+    picture: pictureFor(pleaseAdjustYourSetSwatch),
   },
 ];
