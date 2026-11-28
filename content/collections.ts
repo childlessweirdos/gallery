@@ -72,6 +72,7 @@ export const collections: Collection[] = [
       "gonna-pout-about-it",
       "just-cut-to-the-cheese",
       "please-adjust-your-set",
+      "between-the-cards",
     ],
   },
   {

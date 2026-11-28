@@ -43,6 +43,8 @@ import justCutToTheCheese from "@/public/art/just-cut-to-the-cheese.jpg";
 import justCutToTheCheeseSwatch from "@/public/art/just-cut-to-the-cheese-swatch.png";
 import pleaseAdjustYourSet from "@/public/art/please-adjust-your-set.jpg";
 import pleaseAdjustYourSetSwatch from "@/public/art/please-adjust-your-set-swatch.png";
+import betweenTheCards from "@/public/art/between-the-cards.jpg";
+import betweenTheCardsSwatch from "@/public/art/between-the-cards-swatch.png";
 import d953Preview from "@/public/art/gallery/d-953.jpg";
 import guqinPreview from "@/public/art/gallery/guqin.jpg";
 import forDexterPreview from "@/public/art/gallery/for-dexter.jpg";
@@ -65,6 +67,7 @@ import itsKindOfAGlowUpPreview from "@/public/art/gallery/its-kind-of-a-glow-up.
 import gonnaPoutAboutItPreview from "@/public/art/gallery/gonna-pout-about-it.jpg";
 import justCutToTheCheesePreview from "@/public/art/gallery/just-cut-to-the-cheese.jpg";
 import pleaseAdjustYourSetPreview from "@/public/art/gallery/please-adjust-your-set.jpg";
+import betweenTheCardsPreview from "@/public/art/gallery/between-the-cards.jpg";
 import type { StaticImageData } from "next/image";
 
 // Every piece on the wall right now is this pad.
@@ -436,5 +439,21 @@ export const artworks: Artwork[] = [
     medium,
     dimensions: "12.77 × 18.06 in",
     picture: pictureFor(pleaseAdjustYourSetSwatch),
+  },
+  {
+    id: "between-the-cards",
+    slug: "between-the-cards",
+    title: "Between the Cards",
+    year: 2026,
+    image: betweenTheCards,
+    thumbnail: betweenTheCardsPreview,
+    imageWidth: betweenTheCards.width,
+    imageHeight: betweenTheCards.height,
+    altText:
+      "A figure with long wavy auburn hair sits barefoot on a wooden stool in an olive off-the-shoulder sweater and brown briefs, one hand at the collar, against a yellow panel, between a Temperance card and a Hanged Man card.",
+    displayOrder: 23,
+    medium,
+    dimensions: "12.35 × 17.16 in",
+    picture: pictureFor(betweenTheCardsSwatch),
   },
 ];
